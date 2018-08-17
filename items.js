@@ -3,7 +3,9 @@ window.onload = function() {onLoad()};
 
 function onLoad() {
     var grid = readCookie("grid");
-    if (!grid) {
+    if (grid) {
+        grid = JSON.parse(grid);
+    } else {
         grid = [
             [
                 "item-slingshot-n!",
@@ -239,6 +241,7 @@ function toggleGridEditable(button, state) {
         button.innerHTML = "<br>EDIT";
         document.getElementById("message").innerHTML = "Ran's OoT Randomizer Item Tracker - v0.8<br>Based on TestRunnerSRL's Item Tracker";
         document.getElementById("itemsidetable").innerHTML = "";
+        grid = JSON.stringify(grid);
         createCookie("grid", grid, 365);
     }
 }
