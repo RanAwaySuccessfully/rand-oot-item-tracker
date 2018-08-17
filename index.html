@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Item Tracker - Ocarina of Time Randomizer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="oot-item-tracker.css">
+    <link rel="icon" href="001.png">
+    <script src="oot-item-tracker.js"></script>
+  </head>
+  <body>
+
+    <section>
+      <table>
+        <colgroup>
+          <col></col>
+          <col></col>
+          <col></col>
+          <col></col>
+          <col></col>
+          <col></col>
+        </colgroup>
+        <tbody id="itemtable" class="pixelatedscaling">
+        </tbody>
+      </table>
+      <table>
+        <colgroup>
+          <col></col>
+          <col></col>
+          <col></col>
+          <col></col>
+          <col></col>
+          <col></col>
+        </colgroup>
+        <tbody id="itemsidetable" class="pixelatedscaling">
+        </tbody>
+      </table>
+      <br>
+      <button id="editbutton" onclick="toggleGridEditable(this, true);"><br>EDIT</button>
+    </section>
+    
+    <section id="message"><noscript>This page requires JavaScript to work. Alternatively, there are other downloadable item trackers that don't require JavaScript.</noscript></section>
+    
+    <div id="overlay" class="hidden">
+      <section>
+        ICON SET: <select onchange="changeIconSet(this.value);">
+          <option value="N64">N64</option>
+          <option value="3DS">3DS</option>
+          <option value="USR" disabled>Custom</option>
+        </select>
+        <br><br>
+       <input type="checkbox" id="pixelatedcheckbox" onchange="changePixelScaling(this.checked);" checked>&nbsp;<label for="pixelatedcheckbox">Use nearest-neighbor (pixelated) scaling?</label>
+       <br><br>
+       <button class="button" onclick="closeSettings()">Close Settings</button>
+       <button class="button" onclick="eraseCookie('grid'); eraseCookie('game'); location.reload(true);">Reset Grid</button>
+     </section>
+    </div>
+
+  </body>
+</html>
