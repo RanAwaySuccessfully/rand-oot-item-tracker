@@ -171,7 +171,7 @@ function changeZoom(value) {
     createCookie("mapzoom", value);
 }
 function resetSettings() {
-    var cookies = ["mapzoom", "map", "ganon", "game", "pixelated"];
+    var cookies = ["mapzoom", "map", "ganon", "game", "pixelated", "grid"];
     for (var i = 0; i < cookies.length; i++) {eraseCookie(cookies[i]);}
     location.reload(true);
 }
