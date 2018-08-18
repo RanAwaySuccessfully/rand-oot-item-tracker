@@ -4,38 +4,56 @@
     <title>Item Tracker - Ocarina of Time Randomizer</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.png">
-    <script src="items.js"></script>
+    <script src="tracker.js"></script>
+    <script src="itemstates.js"></script>
+    <script src="map.js"></script>
   </head>
   <body>
 
     <section>
       <table>
         <colgroup>
-          <col></col>
-          <col></col>
-          <col></col>
-          <col></col>
-          <col></col>
-          <col></col>
+          <col>
+          <col>
+          <col>
+          <col>
+          <col>
+          <col>
         </colgroup>
         <tbody id="itemtable" class="pixelatedscaling">
         </tbody>
       </table>
       <table>
         <colgroup>
-          <col></col>
-          <col></col>
-          <col></col>
-          <col></col>
-          <col></col>
-          <col></col>
+          <col>
+          <col>
+          <col>
+          <col>
+          <col>
+          <col>
         </colgroup>
         <tbody id="itemsidetable" class="pixelatedscaling">
         </tbody>
       </table>
+      
+      <div id="map">
+        <div id="map-locations"></div>
+        <div id="map-side">
+          <p id="map-side-title">Hyrule</p>
+          <hr>
+          <ul id="map-side-list" onselectstart="return false;"></ul>
+        </div>
+      </div>
+    
+      <div class="miscitems">
+      <input type="number"> HEART PIECES<br>
+      <input type="number"> HEART CONTAINERS<br>
+      <input type="number"> SKULLTULAS<br>
+      <input type="number"> MAGIC BEANS BOUGHT
+      </div>
       <br>
       <button id="editbutton" onclick="toggleGridEditable(this, true);"><br>EDIT</button>
     </section>
@@ -44,16 +62,39 @@
     
     <div id="overlay" class="hidden">
       <section>
-        ICON SET: <select onchange="changeIconSet(this.value);">
+        MAP SIZE: <input type="range" id="settings_mapzoom" oninput="changeZoom(this.value);" min="0.1" max="2" step="0.1" value="1">&nbsp;<span id="settings_mapzoom2">100%</span>
+        <br>
+        
+        RAINBOW BRIDGE: <select id="settings_ganon" onchange="createCookie('ganon', this.value); drawMap();">
+          <option value="Open">Open</option>
+          <option value="Vanilla">Vanilla</option>
+          <option value="Medallions">Medallions</option>
+          <option value="Dungeons">Dungeons</option>
+        </select>
+        <br>
+        
+        MAP TRACKER: <select id="settings_map" onchange="document.getElementById('map').className = this.value; createCookie('map', this.value);">
+          <option value="">Position: Side</option>
+          <option value="below">Position: Below</option>
+          <option value="margin">Position: Below (centered)</option>
+          <option value="none">Disabled</option>
+        </select>
+        <br>
+        
+        ICON SET: <select id="settings_game" onchange="changeIconSet(this.value);">
           <option value="N64">N64</option>
           <option value="3DS">3DS</option>
           <option value="USR" disabled>Custom</option>
         </select>
-        <br><br>
-       <input type="checkbox" id="pixelatedcheckbox" onchange="changePixelScaling(this.checked);" checked>&nbsp;<label for="pixelatedcheckbox">Use nearest-neighbor (pixelated) scaling?</label>
-       <br><br>
+        <br>
+        
+       <input type="checkbox" id="settings_pixelated" onchange="changePixelScaling(this.checked);" checked>&nbsp;<label for="settings_pixelated">Use nearest-neighbor (pixelated) scaling?</label>
+       <br>
+       
+       <button class="button" onclick='createCookie("mapzoom", 0.6); window.open("https://ranawaysuccessfully.github.io/rand-oot-item-tracker/", "", "width=660,height=660");'>Pop-out Item Tracker</button> <button class="button" onclick="resetSettings();">Reset All Settings</button>
+       <br>
        <button class="button" onclick="closeSettings()">Close Settings</button>
-       <button class="button" onclick="eraseCookie('grid'); eraseCookie('game'); location.reload(true);">Reset Grid</button>
+       
      </section>
     </div>
 
