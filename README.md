@@ -1,19 +1,24 @@
 # OoT Randomizer Item Tracker
-I wanted to make a better item tracker, so I did. Now that I think about it, I don't really know why anyone would use this one in particular, but it exists. It certainly exists.
+This is an attempt at making a better item tracker for the Ocarina of Time Randomizer. It runs in your browser, so there's no need to install or download anything. It is heavily based on [TestRunnerSRL's item tracker](https://github.com/TestRunnerSRL/oot-tracker).
 
-It's not finished yet, but it's already in an usable state.
+# Adding New Items
+New items can easily be added. You just need to create a new .png for both the N64 and 3DS iconsets. Then, you need to add the item's filename to the array on `var grid`, inside `drawItemList()` on `tracker.js`. Lastly, add the filename to the list in `var itemstates` on `itemstates.js`. There you go! Item added.
+
+It's recommended for the image to have the same height as (or a multiple of) the image's width.
+
+## Updating Types
+The item tracker looks at the item's filename and size in order to determine how it'll update the item. Items that have the same width and height are switched between `state=0` and `state=1`. Items with higher heights are updated sequentially, with the topmost item being the `state=0` (unobtained) and `state=1` (obtained), the second one being `state=2`, the third one being `state=3` and so forth. These items are marked with a `-s!` at the end of their filename, so the item tracker can tell them apart from the rest. There's also items with `-n!`, which work the same way except they skip `state=1`, that is, their topmost icon is never on the "on" state, it just skips right to the next one.
+
+Items with `-n!` and `-s!` must also have `-n1!` and `-s1!` versions. These are the images that will be displayed while in Editing Mode.
 
 # To Do List
 
-**v0.9:**
-- Child Trading Quest Items
-- Adult Trading Quest Items
-- Magic Beans Counter
-- Make the item tracker have a pop-out window for easier capturing
+**v0.10:**
+- Custom CSS
+- Chest Locations Fixes and Improvements
+- Ability to click on the bottom-right corner of a song/medallion/stone to mark that location as completed
 
-**v1.0:**
-- Clicking on the bottom-right corner of a song/medallion/stone to mark that location as completed.
-- Chest Locations
-
-**v1.1:**
+**v1.x:**
 - Custom Icon Sets
+
+It is **very** likely that there's things missing here. If you have any suggestions or questions, feel free to ask.
