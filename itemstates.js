@@ -34,6 +34,7 @@ var itemstates = {
     "item-nuts": 0,
     "item-sticks": 0,
     "item-truthmask": 0,
+    "item-weirdegg": 0,
 
     "skulltulas": 0,
     "gerudo-token": 0,
@@ -69,6 +70,8 @@ var itemstates = {
     "song-water": 0,
     "song-shadow": 0,
     "song-spirit": 0,
+    
+    "scarecrow": 0,
 
     "spiritualstone-kokiri": 0,
     "spiritualstone-goron": 0,

@@ -2,9 +2,9 @@
 window.onload = function() {onLoad()};
 
 function onLoad() {
-    var names = ["mapzoom", "map", "ganon", "game", "pixelated"];
+    var names = ["mapzoom", "map", "ganon", "game", "pixelated", "lenslogic"];
     var current_value;
-    var defaults = ["1", "side", "Open", "N64", true];
+    var defaults = ["1", "side", "Open", "N64", true, "default"];
     for (var i = 0; i < names.length; i++) {
         current_value = readCookie(names[i]);
         if (!current_value) {
@@ -71,7 +71,7 @@ function onLoad() {
                 "upgrade-scale-s!",
                 "equipment-sword-biggoron",
                 "equipment-shield-mirror",
-                ""
+                "item-ocarina-s!"
             ],
             [
                 "song-zelda",
@@ -190,7 +190,7 @@ function changeZoom(value) {
     createCookie("mapzoom", value);
 }
 function resetSettings() {
-    var cookies = ["mapzoom", "map", "ganon", "game", "pixelated", "grid"];
+    var cookies = ["mapzoom", "map", "ganon", "game", "pixelated", "grid", "lenslogic"];
     for (var i = 0; i < cookies.length; i++) {eraseCookie(cookies[i]);}
     location.reload(true);
 }
@@ -461,7 +461,9 @@ function drawItemList() {
         "song-storms",
         "item-bottle-letter",
         "upgrade-magic-s1!",
-        "gerudo-token"
+        "gerudo-token",
+        "item-weirdegg",
+        "scarecrow"
     ]
     var table = document.getElementById("itemsidetable");
     table.innerHTML = "";

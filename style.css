@@ -143,7 +143,7 @@ input[type=number] {width: 50px; background: #222; color: inherit; font: inherit
 #map-side p {margin: 5px; text-align: center;}
 #map-side hr {height: 2px; border: 0; background: #FFF; margin: 3px 10px;}
 #map-side-title {font-size: 18px; font-weight: bold;}
-#map-side-list {margin-top: 4px; margin-bottom: 4px; overflow-y: auto; height: 210px; list-style: square;}
+#map-side-list {margin-top: 4px; margin-bottom: 4px; overflow-y: auto; height: 210px; list-style: square; padding-left: 35px;}
 #map-side-list li {cursor: pointer;}
 
 li.unavailable, p.unavailable {color: #E61919;}

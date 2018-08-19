@@ -49,10 +49,10 @@
       </div>
     
       <div class="miscitems">
-      <input type="number"> HEART PIECES<br>
-      <input type="number"> HEART CONTAINERS<br>
-      <input type="number"> SKULLTULAS<br>
-      <input type="number"> MAGIC BEANS BOUGHT
+      <input type="number" min="0" value="0" max="36"> HEART PIECES<br>
+      <input type="number" min="0" value="0" max="8"> HEART CONTAINERS<br>
+      <input type="number" min="0" value="0" max="100"> SKULLTULAS<br>
+      <input type="number" min="0" value="0" max="5"> MAGIC BEANS BOUGHT
       </div>
       <br>
       <button id="editbutton" onclick="toggleGridEditable(this, true);"><br>EDIT</button>
@@ -65,11 +65,18 @@
         MAP SIZE: <input type="range" id="settings_mapzoom" onchange="changeZoom(this.value);" oninput="changeZoom(this.value);" min="0.1" max="2" step="0.1" value="1">&nbsp;<span id="settings_mapzoom2">100%</span>
         <br>
         
-        RAINBOW BRIDGE: <select id="settings_ganon" onchange="createCookie('ganon', this.value); drawMap();">
-          <option value="Open">Open</option>
-          <option value="Vanilla">Vanilla</option>
-          <option value="Medallions">Medallions</option>
-          <option value="Dungeons">Dungeons</option>
+        LENS OF TRUTH LOGIC: <select id="settings_lenslogic" onchange="createCookie('lenslogic', this.value); drawMap(); drawSideInfo();">
+          <option value="default">Required everywhere</option>
+          <option value="no1in32desert">Wasteland and Chest Minigame</option>
+          <option value="no1in32">Only Chest Minigame</option>
+        </select>
+        <br>
+        
+        BRIDGE LOGIC: <select id="settings_ganon" onchange="createCookie('ganon', this.value); drawMap(); drawSideInfo();">
+          <option value="Open">Always open</option>
+          <option value="Vanilla">Vanilla requirements</option>
+          <option value="Medallions">All medallions</option>
+          <option value="Dungeons">All dungeons</option>
         </select>
         <br>
         
