@@ -34,6 +34,15 @@ function drawMap() {
 }
 function drawSideInfo(number) {
     
+    if (!number && number !== 0) {
+        if (!document.getElementById("map-side-list").innerHTML) {return;} // no need to update a list that isn't there!
+        
+        var title = document.getElementById("map-side-title").innerHTML;
+        for (var i in dungeonlist) {
+            if (dungeonlist[i].name === title) {number = i; break;}
+        }
+    }
+    
     var ul = document.getElementById("map-side-list");
     var li;
     ul.innerHTML = "";
@@ -90,7 +99,7 @@ function toggleOWchest(sender) {
 
 function isBridgeOpen() {
     var ganon = readCookie("ganon");
-    if (!ganon) {console.log("NOTE: Couldn't read cookie. Assuming file is local file and setting var ganon = \"Open\"."); ganon = "Open";}
+    if (!ganon) {console.warn("NOTE: Couldn't read cookie. If you're not loading this page from a local file, there is something wrong with the code."); ganon = "Open";}
     switch (ganon) {
         case "Open":
             return true;
@@ -140,13 +149,13 @@ var dungeonlist = [
         x: "87.0%",
         y: "57.0%",
         chestlist: {
-            ['Lobby Chest']: { isAvailable: function () {return true} },
-            ['Compass Chest']: { isAvailable: function () {return true} },
-            ['Compass Room Side Chest']: { isAvailable: function () {return true} },
-            ['Basement Chest']: { isAvailable: function () {return true} },
-            ['Slingshot Chest']: { isAvailable: function () {return true} },
-            ['Slingshot Room Side Chest']: { isAvailable: function () {return true} },
-            ['Gohma']: { isAvailable: function () {return itemstates['item-slingshot'];} },
+            'Lobby Chest': { isAvailable: function () {return true} },
+            'Compass Chest': { isAvailable: function () {return true} },
+            'Compass Room Side Chest': { isAvailable: function () {return true} },
+            'Basement Chest': { isAvailable: function () {return true} },
+            'Slingshot Chest': { isAvailable: function () {return true} },
+            'Slingshot Room Side Chest': { isAvailable: function () {return true} },
+            'Gohma': { isAvailable: function () {return itemstates['item-slingshot'];} },
         },
         isBeatable: function(){
             if(itemstates['item-slingshot']) {
@@ -166,27 +175,27 @@ var dungeonlist = [
         x: "36.1%",
         y: "91.0%",
         chestlist: {
-            ['Map Chest']: { isAvailable: function () {
+            'Map Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']; } },
-            ['Compass Chest']: { isAvailable: function () {
+            'Compass Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']; } },
-            ['Torches Chest']: { isAvailable: function () {
+            'Torches Chest': { isAvailable: function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && (itemstates['item-bow'] || (itemstates['item-dinsfire'] && itemstates['upgrade-magic'])) && itemstates['song-zelda']; } },
-            ['Dragon Chest']: { isAvailable: function () {
+            'Dragon Chest': { isAvailable: function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['song-zelda'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Central Bow Target Chest']: { isAvailable: function () {
+            'Central Bow Target Chest': { isAvailable: function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['item-bow'] && itemstates['upgrade-gauntlets'] && itemstates['song-zelda'] && (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'] >= 2); } },
-            ['Boss Key Chest']: { isAvailable:  function () {
+            'Boss Key Chest': { isAvailable:  function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['song-zelda'] && ((itemstates['item-bombs'] && itemstates['upgrade-gauntlets']) || itemstates['equipment-boots-hover']) && itemstates['item-hookshot'] >= 2; } },
-            ['Central Pillar Chest']: { isAvailable: function () {
+            'Central Pillar Chest': { isAvailable: function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['song-zelda'] ; } },
-            ['Cracked Wall Chest']: { isAvailable: function () {
+            'Cracked Wall Chest': { isAvailable: function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['item-bombs'] && itemstates['song-zelda']; } },
-            ['Dark Link Chest']: { isAvailable: function () {
+            'Dark Link Chest': { isAvailable: function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['song-zelda']; } },
-            ['River Chest']: { isAvailable:  function () {
+            'River Chest': { isAvailable:  function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot']) && itemstates['song-time'] && itemstates['item-bow'] && itemstates['song-zelda']; } },
-            ['Morpha']: { isAvailable:  function () {
+            'Morpha': { isAvailable:  function () {
                 return (itemstates['equipment-tunic-zora'] && itemstates['equipment-boots-iron'] && itemstates['item-hookshot'] >= 2); } },
         },
         isBeatable: function(){
@@ -207,49 +216,49 @@ var dungeonlist = [
         x: "18.8%",
         y: "28.0%",
         chestlist: {
-            ['Lobby Left Chest']: { isAvailable:  function () {
+            'Lobby Left Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-bow']; } },
-            ['Lobby Right Chest']: { isAvailable: function () {
+            'Lobby Right Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-bow'] ; } },
-            ['Stalfos Chest']: { isAvailable:  function () {
+            'Stalfos Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && (itemstates['item-bow'] || itemstates['item-hookshot'] || itemstates['equipment-boots-hover']); } },
-            ['Beamos Chest']: { isAvailable: function () {
+            'Beamos Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && (itemstates['item-bow'] || itemstates['item-hookshot'] || itemstates['equipment-boots-hover']) && itemstates['item-bombs']; } },
-            ['Hidden Ceiling Chest']: { isAvailable: function () {
+            'Hidden Ceiling Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && (itemstates['item-bow'] || itemstates['item-hookshot']) && itemstates['item-truthlens'] && itemstates['upgrade-magic'] ; } },
-            ['Maze Path First Chest']: { isAvailable:  function () {
+            'Maze Path First Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Maze Path Second Chest']: { isAvailable:  function () {
+            'Maze Path Second Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Maze Path Third Chest']: { isAvailable:  function () {
+            'Maze Path Third Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Maze Path Final Chest']: { isAvailable: function () {
+            'Maze Path Final Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Maze Right Central Chest']: { isAvailable:  function () {
+            'Maze Right Central Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Maze Right Side Chest']: { isAvailable: function () {
+            'Maze Right Side Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Maze Right Side Key']: { isAvailable: function () {
+            'Maze Right Side Key': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['song-time'] && itemstates['item-bow']; } },
-            ['Underwater Silver Rupee Chest']: { isAvailable: function () {
+            'Underwater Silver Rupee Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['song-time'] && itemstates['equipment-boots-iron']; } },
-            ['Hammer Room Clear Chest']: { isAvailable:  function () {
+            'Hammer Room Clear Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && (itemstates['song-time'] || itemstates['equipment-boots-hover'] || itemstates['item-hookshot'] >=2 || (itemstates['item-truthlens'] && itemstates['upgrade-magic'])); } },
-            ['Hammer Room Switch Chest']: { isAvailable: function () {
+            'Hammer Room Switch Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['item-hammer'] && (itemstates['song-time'] || itemstates['equipment-boots-hover'] || itemstates['item-hookshot'] >=2 || (itemstates['item-truthlens'] && itemstates['upgrade-magic'])); } },
-            ['Eye Statue Chest']: { isAvailable: function () {
+            'Eye Statue Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['item-bow'] && (itemstates['song-time'] || itemstates['equipment-boots-hover'] || itemstates['item-hookshot'] >=2 || (itemstates['item-truthlens'] && itemstates['upgrade-magic'])); } },
-            ['Near Scarecrow Chest']: { isAvailable: function () {
+            'Near Scarecrow Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Before Heavy Block Chest']: { isAvailable:  function () {
+            'Before Heavy Block Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot']; } },
-            ['Heavy Block First Chest']: { isAvailable:  function () {
+            'Heavy Block First Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Heavy Block Second Chest']: { isAvailable:  function () {
+            'Heavy Block Second Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Heavy Block Third Chest']: { isAvailable:  function () {
+            'Heavy Block Third Chest': { isAvailable:  function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Heavy Block Fourth Chest']: { isAvailable: function () {
+            'Heavy Block Fourth Chest': { isAvailable: function () {
                 return (itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
         },
         isBeatable: function(){
@@ -264,45 +273,45 @@ var dungeonlist = [
         x: "02.5%",
         y: "17.0%",
         chestlist: {
-            ['Child Left Chest']: { isAvailable: function () {
+            'Child Left Chest': { isAvailable: function () {
                 return itemstates['song-spirit'] && (itemstates['item-boomerang'] || itemstates['item-slingshot']); } },
-            ['Child Right Chest']: { isAvailable:  function () {
+            'Child Right Chest': { isAvailable:  function () {
                 return itemstates['song-spirit'] && (itemstates['item-boomerang'] || itemstates['item-slingshot']); } },
-            ['Compass Chest']: { isAvailable:  function () {
+            'Compass Chest': { isAvailable:  function () {
                 return ((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2 && itemstates['item-hookshot'] && itemstates['song-zelda']; } },
-            ['Early Adult Right Chest']: { isAvailable:  function () {
+            'Early Adult Right Chest': { isAvailable:  function () {
                 return ((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2 && (itemstates['item-bow'] || itemstates['item-hookshot'] || itemstates['item-bombs']); } },
-            ['First Mirror Right Chest']: { isAvailable:  function () {
+            'First Mirror Right Chest': { isAvailable:  function () {
                 return ((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2; } },
-            ['First Mirror Left Chest']: { isAvailable:  function () {
+            'First Mirror Left Chest': { isAvailable:  function () {
                 return ((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2; } },
-            ['Map Chest']: { isAvailable:  function () {
+            'Map Chest': { isAvailable:  function () {
                 return ((itemstates['song-spirit'] && itemstates['item-bombs']) || (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2)) && itemstates['upgrade-magic'] && (itemstates['item-dinsfire'] || (itemstates['item-arrows-fire'] && itemstates['item-bow'] && itemstates['upgrade-gauntlets'] >= 2)); } },
-            ['Child Climb East Chest']: { isAvailable:  function () {
+            'Child Climb East Chest': { isAvailable:  function () {
                 return ((itemstates['song-spirit'] && (itemstates['item-boomerang'] || itemstates['item-slingshot'])) || (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2 && (itemstates['item-hookshot'] || itemstates['item-bow']))); } },
-            ['Child Climb North Chest']: { isAvailable: function () {
+            'Child Climb North Chest': { isAvailable: function () {
                  return ((itemstates['song-spirit'] && (itemstates['item-boomerang'] || itemstates['item-slingshot'])) || (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2 && (itemstates['item-hookshot'] || itemstates['item-bow']))); } },
-            ['Sun Block Room Chest']: { isAvailable: function () {
+            'Sun Block Room Chest': { isAvailable: function () {
                 return ((itemstates['song-spirit'] && itemstates['item-bombs']) || (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['item-truthlens'] && itemstates['upgrade-magic'] && itemstates['upgrade-gauntlets'] >= 2 && (itemstates['item-dinsfire'] || (itemstates['item-arrows-fire'] && itemstates['item-bow'])) && itemstates['upgrade-magic'])) ; } },
-            ['Statue Hand Chest']: { isAvailable:  function () {
+            'Statue Hand Chest': { isAvailable:  function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && itemstates['song-zelda']; } },
-            ['NE Main Room Chest']: { isAvailable:  function () {
+            'NE Main Room Chest': { isAvailable:  function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && itemstates['song-zelda'] && itemstates['item-hookshot']; } },
-            ['Silver Gauntlets Chest']: { isAvailable:  function () {
+            'Silver Gauntlets Chest': { isAvailable:  function () {
                 return (itemstates['song-spirit'] && itemstates['item-bombs']) || (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2); } },
-            ['Mirror Shield Chest']: { isAvailable: function () {
+            'Mirror Shield Chest': { isAvailable: function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2); } },
-            ['Near Four Armos Chest']: { isAvailable:  function () {
+            'Near Four Armos Chest': { isAvailable:  function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && itemstates['equipment-shield-mirror']; } },
-            ['Hallway Left Invisible Chest']: { isAvailable:  function () {
+            'Hallway Left Invisible Chest': { isAvailable:  function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && itemstates['upgrade-magic'] && itemstates['item-truthlens']; } },
-            ['Hallway Right Invisible Chest']: { isAvailable: function () {
+            'Hallway Right Invisible Chest': { isAvailable: function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && itemstates['upgrade-magic'] && itemstates['item-truthlens']; } },
-            ['Boss Key Chest']: { isAvailable: function () {
+            'Boss Key Chest': { isAvailable: function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && itemstates['song-zelda'] && itemstates['item-bow'] && itemstates['item-hookshot'] && (itemstates['item-bombs'] || itemstates['item-hammer']) ; } },
-            ['Topmost Chest']: { isAvailable:  function () {
+            'Topmost Chest': { isAvailable:  function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2) && (itemstates['item-hookshot'] || itemstates['item-bow'] || itemstates['item-bombs']) && itemstates['equipment-shield-mirror']; } },
-            ['Twinrova']: { isAvailable:  function () {
+            'Twinrova': { isAvailable:  function () {
                 return (((((itemstates['song-epona'] && itemstates['equipment-boots-hover']) || itemstates['item-hookshot'] >= 2) && itemstates['item-truthlens'] && itemstates['upgrade-magic']) || itemstates['song-spirit']) && itemstates['upgrade-gauntlets'] >= 2 && itemstates['equipment-shield-mirror'] && itemstates['item-bombs'] && itemstates['item-hookshot']); } },
         },
         isBeatable: function(){
@@ -323,33 +332,33 @@ var dungeonlist = [
         x: "68.0%",
         y: "23.0%",
         chestlist: {
-            ['Front Left Hidden Wall']: { isAvailable:  function () {
+            'Front Left Hidden Wall': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Front Center Bombable']: { isAvailable:  function () {
+            'Front Center Bombable': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-bombs']; } },
-            ['Right Bottom Hidden Wall']: { isAvailable:  function () {
+            'Right Bottom Hidden Wall': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Center Large Chest']: { isAvailable: function () {
+            'Center Large Chest': { isAvailable: function () {
                 return itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic'] ; } },
-            ['Center Small Chest']: { isAvailable:  function () {
+            'Center Small Chest': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Back Left Bombable']: { isAvailable:  function () {
+            'Back Left Bombable': { isAvailable:  function () {
                 return itemstates['song-storms'] && (itemstates['song-zelda'] || itemstates['upgrade-scale']); } },
-            ['Coffin Key']: { isAvailable:  function () {
+            'Coffin Key': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-bombs']; } },
-            ['Defeat Boss']: { isAvailable:  function () {
+            'Defeat Boss': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['song-zelda'] && itemstates['equipment-sword-kokiri']; } },
-            ['Invisible Chest']: { isAvailable:  function () {
+            'Invisible Chest': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['song-zelda'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Underwater Front Chest']: { isAvailable: function () {
+            'Underwater Front Chest': { isAvailable: function () {
                 return itemstates['song-storms'] && itemstates['song-zelda'] ; } },
-            ['Underwater Left Chest']: { isAvailable:  function () {
+            'Underwater Left Chest': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['song-zelda']; } },
-            ['Basement Chest']: { isAvailable:  function () {
+            'Basement Chest': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-bombs']; } },
-            ['Locked Pits']: { isAvailable:  function () {
+            'Locked Pits': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
-            ['Behind Right Grate']: { isAvailable:  function () {
+            'Behind Right Grate': { isAvailable:  function () {
                 return itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
         },
         isBeatable: function(){
@@ -364,41 +373,41 @@ var dungeonlist = [
         x: "76.0%",
         y: "21.0%",
         chestlist: {
-            ['Map Chest']: { isAvailable:  function () {
+            'Map Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && (itemstates['equipment-boots-hover'] || itemstates['item-hookshot']); } },
-            ['Hover Boots Chest']: { isAvailable: function () {
+            'Hover Boots Chest': { isAvailable: function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && (itemstates['equipment-boots-hover'] || itemstates['item-hookshot']); } },
-            ['Compass Chest']: { isAvailable:  function () {
+            'Compass Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover']; } },
-            ['Early Silver Rupee Chest']: { isAvailable: function () {
+            'Early Silver Rupee Chest': { isAvailable: function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover']; } },
-            ['Invisible Blades Visible Chest']: { isAvailable:  function () {
+            'Invisible Blades Visible Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs']; } },
-            ['Invisible Blades Invisible Chest']: { isAvailable:  function () {
+            'Invisible Blades Invisible Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs']; } },
-            ['Falling Spikes Lower Chest']: { isAvailable:  function () {
+            'Falling Spikes Lower Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs']; } },
-            ['Falling Spikes Upper Chest']: { isAvailable:  function () {
+            'Falling Spikes Upper Chest': { isAvailable:  function () {
                 return     itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['upgrade-gauntlets']; } },
-            ['Falling Spikes Switch Chest']: { isAvailable:  function () {
+            'Falling Spikes Switch Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['upgrade-gauntlets']; } },
-            ['Invisible Spikes Chest']: { isAvailable:  function () {
+            'Invisible Spikes Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs']; } },
-            ['Giant Pot Key']: { isAvailable:  function () {
+            'Giant Pot Key': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot']; } },
-            ['Wind Hint Chest']: { isAvailable:  function () {
+            'Wind Hint Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot']; } },
-            ['After Wind Enemy Chest']: { isAvailable:  function () {
+            'After Wind Enemy Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot']; } },
-            ['After Wind Hidden Chest']: { isAvailable:  function () {
+            'After Wind Hidden Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot']; } },
-            ['Spike Walls Left Chest']: { isAvailable:  function () {
+            'Spike Walls Left Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] && itemstates['song-zelda']; } },
-            ['Boss Key Chest']: { isAvailable:  function () {
+            'Boss Key Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] && itemstates['song-zelda']; } },
-            ['Hidden Floormaster Chest']: { isAvailable:  function () {
+            'Hidden Floormaster Chest': { isAvailable:  function () {
                 return itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] && itemstates['song-zelda']; } },
-            ['Bongo Bongo']: { isAvailable:  function () {
+            'Bongo Bongo': { isAvailable:  function () {
                 return (itemstates['song-shadow'] && itemstates['item-dinsfire'] && itemstates['upgrade-magic'] && itemstates['item-truthlens'] && itemstates['equipment-boots-hover'] && itemstates['item-bombs'] && itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'] && itemstates['song-zelda'] && itemstates['item-bow']); } },
         },
         isBeatable: function(){
@@ -419,19 +428,19 @@ var dungeonlist = [
         x: "59.0%",
         y: "13.5%",
         chestlist: {
-            ['Map Chest']: { isAvailable:  function () {
+            'Map Chest': { isAvailable:  function () {
                 return itemstates['item-bombs'] || itemstates['item-hammer'] || itemstates['upgrade-gauntlets']  ; } },
-            ['Compass Chest']: { isAvailable:  function () {
+            'Compass Chest': { isAvailable:  function () {
                 return itemstates['item-bombs'] || itemstates['item-hammer'] || itemstates['upgrade-gauntlets']  ; } },
-            ['Bomb Flower Platform']: { isAvailable:  function () {
+            'Bomb Flower Platform': { isAvailable:  function () {
                 return itemstates['item-bombs'] || itemstates['item-hammer'] || itemstates['upgrade-gauntlets']  ; } },
-            ['Bomb Bag Chest']: { isAvailable:  function () {
+            'Bomb Bag Chest': { isAvailable:  function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer'] || itemstates['upgrade-gauntlets']) && (itemstates['item-slingshot'] || itemstates['item-bow'] || itemstates['equipment-boots-hover']); } },
-            ['End of Bridge Chest']: { isAvailable:  function () {
+            'End of Bridge Chest': { isAvailable:  function () {
                 return (itemstates['item-slingshot'] || itemstates['item-bow'] || itemstates['equipment-boots-hover']) && (itemstates['item-bombs'] || ((itemstates['item-bow'] || itemstates['equipment-boots-hover']) && itemstates['item-hammer'])); } },
-            ['Chest Above King Dodongo']: { isAvailable: function () {
+            'Chest Above King Dodongo': { isAvailable: function () {
                 return (itemstates['item-slingshot'] || itemstates['item-bow'] || itemstates['equipment-boots-hover']) && itemstates['item-bombs'] ; } },
-            ['King Dodongo']: { isAvailable: function () {
+            'King Dodongo': { isAvailable: function () {
                 return ((itemstates['item-slingshot'] || itemstates['item-bow'] || itemstates['equipment-boots-hover']) && itemstates['item-bombs']) ; } },
         },
         isBeatable: function(){
@@ -452,35 +461,35 @@ var dungeonlist = [
         x: "68.0%",
         y: "06.5%",
         chestlist: {
-            ['Chest Near Boss']: { isAvailable:  function () {
+            'Chest Near Boss': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])); } },
-            ['Fire Dancer Chest']: { isAvailable: function () {
+            'Fire Dancer Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['item-hammer'] ; } },
-            ['Boss Key Chest']: { isAvailable:  function () {
+            'Boss Key Chest': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['item-hammer']; } },
-            ['Big Lava Room Bombable Chest']: { isAvailable:  function () {
-                return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) &&ZeldasLullaby && itemstates['item-bombs']; } },
-            ['Big Lava Room Open Chest']: { isAvailable:  function () {
+            'Big Lava Room Bombable Chest': { isAvailable:  function () {
+                return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['song-zelda'] && itemstates['item-bombs']; } },
+            'Big Lava Room Open Chest': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])); } },
-            ['Boulder Maze Lower Chest']: { isAvailable:  function () {
+            'Boulder Maze Lower Chest': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']); } },
-            ['Boulder Maze Upper Chest']: { isAvailable:  function () {
+            'Boulder Maze Upper Chest': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']); } },
-            ['Boulder Maze Side Room']: { isAvailable:  function () {
+            'Boulder Maze Side Room': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']); } },
-            ['Boulder Maze Bombable Pit']: { isAvailable:  function () {
+            'Boulder Maze Bombable Pit': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && itemstates['item-bombs']; } },
-            ['Scarecrow Chest']: { isAvailable: function () {
+            'Scarecrow Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-goron'] && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']) && itemstates['item-hookshot']; } },
-            ['Map Chest']: { isAvailable: function () {
+            'Map Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']) ; } },
-            ['Compass Chest']: { isAvailable: function () {
+            'Compass Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']); } },
-            ['Highest Goron Chest']: { isAvailable:  function () {
+            'Highest Goron Chest': { isAvailable:  function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']) && itemstates['song-time'] && itemstates['item-hammer']; } },
-            ['Megaton Hammer Chest']: { isAvailable: function () {
+            'Megaton Hammer Chest': { isAvailable: function () {
                 return itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['upgrade-gauntlets'] && itemstates['item-bombs']; } },
-            ['Volvagia']: { isAvailable: function () {
+            'Volvagia': { isAvailable: function () {
                 return (itemstates['equipment-tunic-goron'] && (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) && itemstates['item-hammer'] && (itemstates['equipment-boots-hover'] || (itemstates['upgrade-gauntlets'] && (itemstates['item-bombs'] || itemstates['item-bow'] || itemstates['item-hookshot']) && (itemstates['song-time'] || itemstates['item-bombs'])))); } },
         },
         isBeatable: function(){
@@ -501,13 +510,13 @@ var dungeonlist = [
         x: "91.5%",
         y: "21.0%",
         chestlist: {
-            ['Boomerang Chest']: { isAvailable: function () {
+            'Boomerang Chest': { isAvailable: function () {
                 return ((itemstates['item-bombs'] && itemstates['song-zelda']) || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-bottle'] && (itemstates['item-slingshot'] || itemstates['item-bombs'] || itemstates['item-boomerang']); } },
-            ['Map Chest']: { isAvailable:  function () {
+            'Map Chest': { isAvailable:  function () {
                 return ((itemstates['item-bombs'] && itemstates['song-zelda']) || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-bottle'] && itemstates['item-boomerang']; } },
-            ['Compass Chest']: { isAvailable:  function () {
+            'Compass Chest': { isAvailable:  function () {
                 return ((itemstates['item-bombs'] && itemstates['song-zelda']) || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-bottle'] && itemstates['item-boomerang']; } },
-            ['Barinade']: { isAvailable:  function () {
+            'Barinade': { isAvailable:  function () {
                 return (((itemstates['item-bombs'] && itemstates['song-zelda']) || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-bottle'] && itemstates['item-boomerang']); } },
         },
         isBeatable: function(){
@@ -528,15 +537,15 @@ var dungeonlist = [
         x: "90.5%",
         y: "16.0%",
         chestlist: {
-            ['Map Chest']: { isAvailable:  function () {
+            'Map Chest': { isAvailable:  function () {
                 return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['song-zelda'] && itemstates['item-bottle']; } },
-            ['Compass Chest']: { isAvailable:  function () {
+            'Compass Chest': { isAvailable:  function () {
                 return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['song-zelda'] && itemstates['item-bottle']; } },
-            ['Heart Piece']: { isAvailable:  function () {
+            'Heart Piece': { isAvailable:  function () {
                 return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['song-zelda'] && itemstates['item-bottle']; } },
-            ['Iron Boots Chest']: { isAvailable:  function () {
+            'Iron Boots Chest': { isAvailable:  function () {
                 return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['song-zelda'] && itemstates['item-bottle']; } },
-            ['Sheik in Ice Cavern']: { isAvailable:  function () {
+            'Sheik in Ice Cavern': { isAvailable:  function () {
                 return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['song-zelda'] && itemstates['item-bottle']; } },
         },
         isBeatable: function(){
@@ -551,33 +560,33 @@ var dungeonlist = [
         x: "78.5%",
         y: "39.0%",
         chestlist: {
-            ['First Chest']: { isAvailable:  function () {
+            'First Chest': { isAvailable:  function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; } },
-            ['Chest Behind Lobby']: { isAvailable: function () {
+            'Chest Behind Lobby': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; } },
-            ['Well Chest']: { isAvailable: function () {
+            'Well Chest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; } },
-            ['Map Chest']: { isAvailable: function () {
+            'Map Chest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; } },
-            ['Outside Hookshot Chest']: { isAvailable: function () {
+            'Outside Hookshot Chest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; },  },
-            ['Falling Room Chest']: { isAvailable: function () {
+            'Falling Room Chest': { isAvailable: function () {
                 return ((itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']) && (itemstates['item-bow'] || (itemstates['item-dinsfire'] && itemstates['upgrade-magic'])); } },
-            ['Block Push Chest']: { isAvailable: function () {
+            'Block Push Chest': { isAvailable: function () {
                 return ((itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']) && itemstates['item-bow']; } },
-            ['Boss Key Chest']: { isAvailable: function () {
+            'Boss Key Chest': { isAvailable: function () {
                 return ((itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']) && itemstates['item-bow']; } },
-            ['Floormaster Chest']: { isAvailable: function () {
+            'Floormaster Chest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; },  },
-            ['Bow Chest']: { isAvailable: function () {
+            'Bow Chest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']; },   },
-            ['Red Poe Chest']: { isAvailable:  function () {
+            'Red Poe Chest': { isAvailable:  function () {
                 return ((itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']) && itemstates['item-bow']; } },
-            ['Blue Poe Chest']: { isAvailable: function () {
+            'Blue Poe Chest': { isAvailable: function () {
                 return ((itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot']) && itemstates['item-bow']; } },
-            ['Near Boss Chest']: { isAvailable: function () {
+            'Near Boss Chest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot'] && itemstates['item-bow']; } },
-            ['Phantom Ganon']: { isAvailable: function () {
+            'Phantom Ganon': { isAvailable: function () {
                 return ((itemstates['song-saria'] || itemstates['song-forest']) && itemstates['item-hookshot'] && itemstates['item-bow']); } },
         },
         isBeatable: function(){
@@ -598,49 +607,49 @@ var dungeonlist = [
         x: "52.0%",
         y: "10.0%",
         chestlist: {
-            ['Forest Trial Chest']: { isAvailable: function () { 
+            'Forest Trial Chest': { isAvailable: function () { 
                 return isBridgeOpen(); } },
-            ['Water Trial Left Chest']: { isAvailable: function () { 
+            'Water Trial Left Chest': { isAvailable: function () { 
                 return isBridgeOpen(); } },
-            ['Water Trial Right Chest']: { isAvailable: function () { 
+            'Water Trial Right Chest': { isAvailable: function () { 
                 return isBridgeOpen(); } },
-            ['Shadow Trial First Chest']: { isAvailable:  function () {
+            'Shadow Trial First Chest': { isAvailable:  function () {
                 return isBridgeOpen() && ((itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-fire']) || itemstates['item-hookshot'] >= 2); } },
-            ['Shadow Trial Second Chest']: { isAvailable:  function () {
+            'Shadow Trial Second Chest': { isAvailable:  function () {
                 return isBridgeOpen() && ((itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-fire']) || (itemstates['item-hookshot'] >= 2 && itemstates['equipment-boots-hover'])); } },
-            ['Spirit Trial First Chest']: { isAvailable:  function () {
+            'Spirit Trial First Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['item-hookshot'] && (itemstates['upgrade-magic'] || itemstates['item-bombs']); } },
-            ['Spirit Trial Second Chest']: { isAvailable:  function () {
+            'Spirit Trial Second Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['item-hookshot'] && itemstates['upgrade-magic'] && itemstates['item-bombs'] && itemstates['item-truthlens']; } },
-            ['Light Trial First Left Chest']: { isAvailable:  function () {
+            'Light Trial First Left Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            ['Light Trial Second Left Chest']: { isAvailable:  function () {
+            'Light Trial Second Left Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            ['Light Trial Third Left Chest']: { isAvailable:  function () {
+            'Light Trial Third Left Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            ['Light Trial First Right Chest']: { isAvailable:  function () {
+            'Light Trial First Right Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            ['Light Trial Second Right Chest']: { isAvailable:  function () {
+            'Light Trial Second Right Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            ['Light Trial Third Right Chest']: { isAvailable:  function () {
+            'Light Trial Third Right Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            ['Light Trail Invisible Enemies Chest']: { isAvailable: function () {
+            'Light Trail Invisible Enemies Chest': { isAvailable: function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3 && (itemstates['upgrade-magic'] && itemstates['item-truthlens']); } },
-            ['Light Trial Lullaby Chest']: { isAvailable:  function () {
+            'Light Trial Lullaby Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3 && itemstates['song-zelda']; } },
         },
         trials: {
-            ['Forest Trial Clear']: { isAvailable:  function () {
+            'Forest Trial Clear': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-light'] && (itemstates['item-arrows-fire'] || (itemstates['item-hookshot'] && itemstates['item-dinsfire'])); } },
-            ['Fire Trial Clear']: { isAvailable:  function () {
+            'Fire Trial Clear': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['equipment-tunic-goron'] && itemstates['upgrade-gauntlets'] >= 3 && itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-light'] && itemstates['item-hookshot'] >= 2; } },
-            ['Water Trial Clear']: { isAvailable:  function () {
+            'Water Trial Clear': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['item-bottle'] && itemstates['item-hammer'] && itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-light']; } },
-            ['Shadow Trial Clear']: { isAvailable:  function () {
+            'Shadow Trial Clear': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-light'] && itemstates['item-hammer'] && (itemstates['item-arrows-fire'] || itemstates['item-hookshot'] >= 2) && (itemstates['item-truthlens'] || (itemstates['equipment-boots-hover'] && itemstates['item-hookshot'] >= 2)); } },
-            ['Spirit Trial Clear']: { isAvailable:  function () {
+            'Spirit Trial Clear': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-arrows-light'] && itemstates['equipment-shield-mirror'] && itemstates['item-bombs'] && itemstates['item-hookshot']; } },
-            ['Light Trial Clear']: { isAvailable:  function () {
+            'Light Trial Clear': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3 && itemstates['upgrade-magic'] && itemstates['item-bow'] && itemstates['item-hookshot'] && itemstates['item-arrows-light']; }      },
         },
         isBeatable: function(){
@@ -655,27 +664,27 @@ var dungeonlist = [
         x: "52.0%",
         y: "20.0%",
         chestlist: {
-            ['Zelda\'s Lullaby']: { isAvailable: function () {
+            'Zelda\'s Lullaby': { isAvailable: function () {
                 return (true); } },
-            ['Child Shooting Gallery']: { isAvailable: function () {
+            'Child Shooting Gallery': { isAvailable: function () {
                 return (true); } },
-            ['Bombchu Bowling 1']: { isAvailable: function () {
+            'Bombchu Bowling 1': { isAvailable: function () {
                 return (itemstates['item-bombs']); } },
-            ['Bombchu Bowling 2']: { isAvailable: function () {
+            'Bombchu Bowling 2': { isAvailable: function () {
                 return (itemstates['item-bombs']); } },
-            ['Treasure Chest Game']: { isAvailable: function () {
+            'Treasure Chest Game': { isAvailable: function () {
                 return (itemstates['item-truthlens'] && itemstates['upgrade-magic']); } },
-            ['Dog Lady']: { isAvailable: function () {
+            'Dog Lady': { isAvailable: function () {
                 return (true); } },
-            ['10 Big Poes']: { isAvailable: function () {
+            '10 Big Poes': { isAvailable: function () {
                 return (itemstates['item-bow'] && itemstates['song-epona'] && itemstates['item-bottle']); } },
-            ['Hyrule Castle Fairy']: { isAvailable: function () {
+            'Hyrule Castle Fairy': { isAvailable: function () {
                 return (itemstates['item-bombs'] && itemstates['song-zelda']); } },
-            ['Ganon\'s Castle Fairy']: { isAvailable: function () {
+            'Ganon\'s Castle Fairy': { isAvailable: function () {
                 return (itemstates['upgrade-gauntlets'] >= 3 && itemstates['song-zelda']); } },
-            ['Prelude of Light']: { isAvailable: function () {
+            'Prelude of Light': { isAvailable: function () {
                 return (itemstates['medallion-forest']); } },
-            ['Light Arrows']: { isAvailable: function () {
+            'Light Arrows': { isAvailable: function () {
                 return (itemstates['medallion-shadow'] && itemstates['medallion-spirit']); } },
 
         },
@@ -691,51 +700,51 @@ var dungeonlist = [
         x: "65.0%",
         y: "24.0%",
         chestlist: {
-            ['Anju as Adult']: { isAvailable: function () {
+            'Anju as Adult': { isAvailable: function () {
                 return (true); } },
-            ['Anju\'s Chickens']: { isAvailable: function () {
+            'Anju\'s Chickens': { isAvailable: function () {
                 return (true); } },
-            ['Kakariko Grotto Chest']: { isAvailable: function () {
+            'Kakariko Grotto Chest': { isAvailable: function () {
                 return (true); } },
-            ['Kakariko Redead Grotto Chest']: { isAvailable: function () {
+            'Kakariko Redead Grotto Chest': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer']); } },
-            ['Cow Heart Piece']: { isAvailable: function () {
+            'Cow Heart Piece': { isAvailable: function () {
                 return (true); } },
-            ['Man on Roof']: { isAvailable: function () {
+            'Man on Roof': { isAvailable: function () {
                 return (itemstates['item-hookshot']); } },
-            ['Adult Shooting Gallery']: { isAvailable: function () {
+            'Adult Shooting Gallery': { isAvailable: function () {
                 return (itemstates['item-bow']); } },
-            ['Song of Storms']: { isAvailable: function () {
+            'Song of Storms': { isAvailable: function () {
                 return (true); } },
-            ['Windmill Heart Piece']: { isAvailable: function () {
+            'Windmill Heart Piece': { isAvailable: function () {
                 return (itemstates['song-time'] || itemstates['item-boomerang']); } },
-            ['Dampe Race 1']: { isAvailable: function () {
+            'Dampe Race 1': { isAvailable: function () {
                 return (true); } },
-            ['Dampe Race 2']: { isAvailable: function () {
+            'Dampe Race 2': { isAvailable: function () {
                 return (true); } },
-            ['Dampe Digging']: { isAvailable: function () {
+            'Dampe Digging': { isAvailable: function () {
                 return (true); } },
-            ['Shield Grave Chest']: { isAvailable: function () {
+            'Shield Grave Chest': { isAvailable: function () {
                 return (true); } },
-            ['Redead Grave Chest']: { isAvailable: function () {
+            'Redead Grave Chest': { isAvailable: function () {
                 return (itemstates['song-suns']); } },
-            ['Sun\'s Song']: { isAvailable: function () {
+            'Sun\'s Song': { isAvailable: function () {
                 return (itemstates['song-zelda']); } },
-            ['Sun\'s Song Chest']: { isAvailable: function () {
+            'Sun\'s Song Chest': { isAvailable: function () {
                 return (itemstates['song-zelda'] && ((itemstates['item-dinsfire'] || (itemstates['item-arrows-fire'] && itemstates['item-bow'])) && itemstates['upgrade-magic'])); } },
-            ['Magic Bean Heart Piece']: { isAvailable: function () {
+            'Magic Bean Heart Piece': { isAvailable: function () {
                 return (itemstates['upgrade-scale'] || itemstates['item-bombs'] || itemstates['item-hookshot'] >= 2); } },
-            ['Nocturne of Shadow']: { isAvailable: function () {
+            'Nocturne of Shadow': { isAvailable: function () {
                 return (itemstates['medallion-forest'] && itemstates['medallion-fire'] && itemstates['medallion-water']); } },
-            ['Skulltula House 10']: { isAvailable: function () {
+            'Skulltula House 10': { isAvailable: function () {
                 return (itemstates['skulltulas'] >= 1); } },
-            ['Skulltula House 20']: { isAvailable: function () {
+            'Skulltula House 20': { isAvailable: function () {
                 return (itemstates['skulltulas'] >= 2); } },
-            ['Skulltula House 30']: { isAvailable: function () {
+            'Skulltula House 30': { isAvailable: function () {
                 return (itemstates['skulltulas'] >= 3); } },
-            ['Skulltula House 40']: { isAvailable: function () {
+            'Skulltula House 40': { isAvailable: function () {
                 return (itemstates['skulltulas'] >= 4); } },
-            ['Skulltula House 50']: { isAvailable: function () {
+            'Skulltula House 50': { isAvailable: function () {
                 return (itemstates['skulltulas'] >= 5); } },
         },
         isBeatable: function(){
@@ -750,19 +759,19 @@ var dungeonlist = [
         x: "60.0%",
         y: "06.5%",
         chestlist: {
-            ['Left Boulder Maze Chest']: { isAvailable: function () {
+            'Left Boulder Maze Chest': { isAvailable: function () {
                 return (itemstates['upgrade-gauntlets'] >= 2 || itemstates['item-hammer']); } },
-            ['Center Boulder Maze Chest']: { isAvailable: function () {
+            'Center Boulder Maze Chest': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer'] || itemstates['upgrade-gauntlets'] >= 2); } },
-            ['Right Boulder Maze Chest']: { isAvailable: function () {
+            'Right Boulder Maze Chest': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer'] || itemstates['upgrade-gauntlets'] >= 2); } },
-            ['Hot Rodder Goron']: { isAvailable: function () {
+            'Hot Rodder Goron': { isAvailable: function () {
                 return (itemstates['item-bombs']); } },
-            ['Link the Goron']: { isAvailable: function () {
+            'Link the Goron': { isAvailable: function () {
                 return (itemstates['upgrade-gauntlets'] || itemstates['item-bombs'] || itemstates['item-bow']); } },
-            ['Spinning Pot Heart Piece']: { isAvailable: function () {
+            'Spinning Pot Heart Piece': { isAvailable: function () {
                 return ((itemstates['upgrade-gauntlets'] || itemstates['item-bombs']) && (itemstates['song-zelda'] || (itemstates['upgrade-magic'] && itemstates['item-dinsfire']))); } },
-            ['Darunia\'s Joy']: { isAvailable: function () {
+            'Darunia\'s Joy': { isAvailable: function () {
                 return (itemstates['song-zelda'] && itemstates['song-saria']); } },
         },
         isBeatable: function(){
@@ -777,27 +786,27 @@ var dungeonlist = [
         x: "78.0%",
         y: "48.0%",
         chestlist: {
-            ['Skull Kid']: { isAvailable: function () {
+            'Skull Kid': { isAvailable: function () {
                 return (itemstates['song-saria']); } },
-            ['Deku Salesman']: { isAvailable: function () {
+            'Deku Salesman': { isAvailable: function () {
                 return (true); } },
-            ['Ocarina Memory Game']: { isAvailable: function () {
+            'Ocarina Memory Game': { isAvailable: function () {
                 return (true); } },
-            ['Target in Woods']: { isAvailable: function () {
+            'Target in Woods': { isAvailable: function () {
                 return (itemstates['item-slingshot']); } },
-            ['Bomb Grotto Chest']: { isAvailable: function () {
+            'Bomb Grotto Chest': { isAvailable: function () {
                 return (itemstates['item-bombs'] || (itemstates['item-hammer'] && (item.SariasSong || itemstates['song-forest']))); } },
-            ['Deku Salesman Grotto']: { isAvailable: function () {
+            'Deku Salesman Grotto': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer']); } },
-            ['Wolfos Grotto Chest']: { isAvailable: function () {
+            'Wolfos Grotto Chest': { isAvailable: function () {
                 return (itemstates['item-bombs'] || (itemstates['item-hammer'] && (item.SariasSong || itemstates['song-forest']))); } },
-            ['Saria\'s Song']: { isAvailable: function () {
+            'Saria\'s Song': { isAvailable: function () {
                 return (true); } },
-            ['Minuet of Forest']: { isAvailable: function () {
+            'Minuet of Forest': { isAvailable: function () {
                 return (itemstates['song-saria'] || itemstates['song-forest']); } },
-            ['Deku Theater Skull Mask']: { isAvailable: function () {
+            'Deku Theater Skull Mask': { isAvailable: function () {
                 return (true); } },
-            ['Deku Theater Mask of Truth']: { isAvailable: function () {
+            'Deku Theater Mask of Truth': { isAvailable: function () {
                 return (itemstates['song-saria'] && itemstates['spiritualstone-kokiri'] && itemstates['spiritualstone-goron'] && itemstates['spiritualstone-zora']); } },
         },
         isBeatable: function(){
@@ -812,17 +821,17 @@ var dungeonlist = [
         x: "93.5%",
         y: "29.0%",
         chestlist: {
-            ['Diving Minigame']: { isAvailable: function () {
+            'Diving Minigame': { isAvailable: function () {
                 return ((itemstates['item-bombs'] && itemstates['song-zelda']) || itemstates['upgrade-scale']); } },
-            ['Zoras Domain Torch Run']: { isAvailable: function () {
+            'Zoras Domain Torch Run': { isAvailable: function () {
                 return ((itemstates['item-bombs'] && itemstates['song-zelda']) || itemstates['upgrade-scale']); } },
-            ['Fairy Fountain']: { isAvailable: function () {
+            'Fairy Fountain': { isAvailable: function () {
                 return (itemstates['item-bottle-letter']&& itemstates['item-bombs'] && itemstates['song-zelda']); } },
-            ['Iceberg Heart Piece']: { isAvailable: function () {
+            'Iceberg Heart Piece': { isAvailable: function () {
                 return (itemstates['item-bottle-letter']&& (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['song-zelda']); } },
-            ['Underwater Heart Piece']: { isAvailable: function () {
+            'Underwater Heart Piece': { isAvailable: function () {
                 return (itemstates['item-bottle-letter']&& (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['equipment-boots-iron'] && itemstates['song-zelda']); } },
-            ['King Zora Thawed']: { isAvailable: function () {
+            'King Zora Thawed': { isAvailable: function () {
                 return (itemstates['song-zelda'] && itemstates['item-bottle'] && ((itemstates['item-bottle-letter']&& (itemstates['item-bombs'] || itemstates['upgrade-scale'])) || isBridgeOpen() || itemstates['upgrade-wallet'])); } },
         },
         isBeatable: function(){
@@ -837,25 +846,25 @@ var dungeonlist = [
         x: "64.0%",
         y: "09.0%",
         chestlist: {
-            ['Heart Piece Above Dodongo Cavern']: { isAvailable: function () {
+            'Heart Piece Above Dodongo Cavern': { isAvailable: function () {
                 return (itemstates['item-bombs'] || (itemstates['upgrade-gauntlets'] && itemstates['upgrade-scale'])); } },
-            ['Outside Goron City Chest']: { isAvailable: function () {
+            'Outside Goron City Chest': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer']); } },
-            ['Outside Goron City Grotto']: { isAvailable: function () {
+            'Outside Goron City Grotto': { isAvailable: function () {
                 return (itemstates['song-storms']); } },
-            ['Bolero of Fire']: { isAvailable: function () {
+            'Bolero of Fire': { isAvailable: function () {
                 return (itemstates['song-fire'] || (itemstates['equipment-boots-hover'] && (itemstates['item-hammer'] || itemstates['item-bombs'] || itemstates['upgrade-gauntlets'])) || (itemstates['item-hookshot'] && itemstates['upgrade-gauntlets'])); } },
-            ['Crater Wall Heart Piece']: { isAvailable: function () {
+            'Crater Wall Heart Piece': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer'] || (itemstates['song-fire'] && (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) || itemstates['upgrade-gauntlets']); } },
-            ['Crater Magic Bean Heart Piece']: { isAvailable: function () {
+            'Crater Magic Bean Heart Piece': { isAvailable: function () {
                 return ((itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['song-fire']); } },
-            ['Crater Grotto']: { isAvailable: function () {
+            'Crater Grotto': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer']); } },
-            ['Crater Fairy Fountain']: { isAvailable: function () {
+            'Crater Fairy Fountain': { isAvailable: function () {
                 return (itemstates['item-hammer'] && itemstates['song-zelda'] && (itemstates['upgrade-gauntlets'] || (itemstates['song-fire'] && itemstates['item-hookshot']) || itemstates['equipment-boots-hover'])); } },
-            ['Summit Fairy Fountain']: { isAvailable: function () {
+            'Summit Fairy Fountain': { isAvailable: function () {
                 return ((itemstates['item-bombs'] || itemstates['item-hammer']) && itemstates['song-zelda']); } },
-            ['Biggoron Sword']: { isAvailable: function () {
+            'Biggoron Sword': { isAvailable: function () {
                 return (itemstates['item-bombs'] || itemstates['item-hammer'] || (itemstates['song-fire'] && (itemstates['equipment-boots-hover'] || itemstates['item-hookshot'])) || itemstates['upgrade-gauntlets']); } },
         },
         isBeatable: function(){

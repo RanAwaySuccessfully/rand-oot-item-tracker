@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.png">
-    <script src="tracker.js"></script>
-    <script src="itemstates.js"></script>
-    <script src="map.js"></script>
+    <script src="map.js" async></script>
+    <script src="itemstates.js" async></script>
+    <script src="tracker.js" defer></script>
   </head>
   <body>
 
@@ -62,7 +62,7 @@
     
     <div id="overlay" class="hidden">
       <section>
-        MAP SIZE: <input type="range" id="settings_mapzoom" oninput="changeZoom(this.value);" min="0.1" max="2" step="0.1" value="1">&nbsp;<span id="settings_mapzoom2">100%</span>
+        MAP SIZE: <input type="range" id="settings_mapzoom" onchange="changeZoom(this.value);" oninput="changeZoom(this.value);" min="0.1" max="2" step="0.1" value="1">&nbsp;<span id="settings_mapzoom2">100%</span>
         <br>
         
         RAINBOW BRIDGE: <select id="settings_ganon" onchange="createCookie('ganon', this.value); drawMap();">
@@ -74,7 +74,7 @@
         <br>
         
         MAP TRACKER: <select id="settings_map" onchange="document.getElementById('map').className = this.value; createCookie('map', this.value);">
-          <option value="">Position: Side</option>
+          <option value="side">Position: Side</option>
           <option value="below">Position: Below</option>
           <option value="margin">Position: Below (centered)</option>
           <option value="none">Disabled</option>

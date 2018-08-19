@@ -4,10 +4,14 @@ window.onload = function() {onLoad()};
 function onLoad() {
     var names = ["mapzoom", "map", "ganon", "game", "pixelated"];
     var current_value;
-    var defaults = ["1", "", "Open", "N64", true];
+    var defaults = ["1", "side", "Open", "N64", true];
     for (var i = 0; i < names.length; i++) {
         current_value = readCookie(names[i]);
-        if (!current_value) {current_value = defaults[i];}
+        if (!current_value) {
+            current_value = defaults[i];
+            createCookie(names[i], current_value);
+        }
+        
         if (names[i] === "mapzoom") {changeZoom(current_value);}
         if (names[i] === "map") {document.getElementById('map').className = current_value;}
         if (names[i] === "game") {var game = current_value;}
@@ -16,6 +20,7 @@ function onLoad() {
             changePixelScaling(current_value);
             continue;
         }
+        
         document.getElementById("settings_" + names[i]).value = current_value;
     }
     var grid = readCookie("grid");
@@ -108,7 +113,7 @@ function onLoad() {
             if (grid[i][j]) {
                 td.style.backgroundImage = "url(" + game + "/" + grid[i][j] + ".png)";
                 td.setAttribute("state", "0");
-                td.setAttribute("onclick", "onClick(this);");
+                td.setAttribute("onclick", "onClick(event, this);");
             }
             tr.appendChild(td);
         }
@@ -117,13 +122,18 @@ function onLoad() {
     document.getElementById("message").innerHTML = "You can click on an item to toggle its state.";
     drawMap();
 }
-function onClick(element) {
+function onClick(event, element) {
+    
     var state = Number(element.getAttribute("state"));
     
     var img = new Image();
     var src = element.style.backgroundImage.replace(/url\("/g, "").replace(/"\)/g, "");
     img.src = src;
     var max_state = img.height / img.width;
+    
+    if (src.match(/(song-)|(medallion-)|(spiritualstone-)/g)) {
+        if (event.offsetX >= 32 && event.offsetY >= 32) {cornerClick(element); return;}
+    } // check if the element is a song, medallion or a spiritual stone, and that it was clicked on the bottom-right corner
     
     var updatingType = src.search(/(n|s)!/g); // this will return the position of the match (src.match doesn't work here)
     if (updatingType) {updatingType = src.substr(updatingType, 2);} // replace the position number with the substring
@@ -134,6 +144,13 @@ function onClick(element) {
     }
     element.setAttribute("state", state);
     manageItemStates(src, true, state);
+}
+function cornerClick(element) {
+    if (element.getAttribute("checkmark")) {
+        element.removeAttribute("checkmark");
+    } else {
+        element.setAttribute("checkmark", "1");
+    }
 }
 
 /* SETTINGS */
@@ -167,6 +184,8 @@ function changePixelScaling(value) {
 }
 function changeZoom(value) {
     document.getElementById("map").style.zoom = value;
+    document.getElementById("map").style.MozTransform = "scale(" + (value) + ")";
+    document.getElementById("map").style.MozTransformOrigin = "0 0";
     document.getElementById("settings_mapzoom2").innerHTML = parseInt(value * 100) + "%";
     createCookie("mapzoom", value);
 }
@@ -243,7 +262,7 @@ function toggleGridEditable(button, state) {
             td = tr[i].children;
             grid.push([]);
             for (var j = 0; j < [td.length - 2]; j++) {
-                if (td[j].innerHTML.search("<img src=") !== -1) {
+                if (td[j].children[0].children[0]) {
                     td[j].style.backgroundImage = "url('" + td[j].children[0].children[0].getAttribute("src") + "')";
                     position = td[j].style.backgroundImage.search(/(n|s)1!/);
                     if (position !== -1) {
@@ -251,7 +270,7 @@ function toggleGridEditable(button, state) {
                         td[j].style.backgroundImage.substring(position + 2, td[j].style.backgroundImage.length);
                     }
                     stringToPush = td[j].style.backgroundImage.replace(/url\("(N64|3DS|USR)\//g, "").replace('.png")', "");
-                    td[j].setAttribute("onclick", "onClick(this);");
+                    td[j].setAttribute("onclick", "onClick(event, this);");
                 }
                 grid[i].push(stringToPush);
                 stringToPush = "";
@@ -265,7 +284,7 @@ function toggleGridEditable(button, state) {
         }
         button.setAttribute("onclick", "toggleGridEditable(this, true);");
         button.innerHTML = "<br>EDIT";
-        document.getElementById("message").innerHTML = "Ocarina of Time Randomizer Item Tracker - v0.9";
+        document.getElementById("message").innerHTML = "Ocarina of Time Randomizer Item Tracker - v0.10";
         document.getElementById("itemsidetable").innerHTML = "";
         grid = JSON.stringify(grid);
         createCookie("grid", grid);
@@ -353,16 +372,28 @@ function drop(event, isClick) {
     if (target.tagName === "IMG") {target = target.parentElement;}
     var swapImage = target.innerHTML;
     var swapState = target.parentElement.getAttribute("state");
+    var swapCheckmark = target.parentElement.getAttribute("checkmark");
     
     target.innerHTML = "";
     var child = document.querySelector("[src='" + data + "']");
     if (child) {target.appendChild(child);}
     target.parentElement.setAttribute("state", firstDiv.parentElement.getAttribute("state"));
     
+    var checkmark = firstDiv.parentElement.getAttribute("checkmark");
+    if (checkmark) {
+        target.parentElement.setAttribute("checkmark", firstDiv.parentElement.getAttribute("checkmark"));
+    } else {target.parentElement.removeAttribute("checkmark");
+    } 
+    if (swapCheckmark) {
+        firstDiv.parentElement.setAttribute("checkmark", swapCheckmark);
+    } else {firstDiv.parentElement.removeAttribute("checkmark");}
+    // the checkmark attribute needs to be removed when not in use, having it empty will still render a checkmark
+    
     if (swapImage) {
         firstDiv.innerHTML = swapImage;
         firstDiv.parentElement.setAttribute("state", swapState);
     } else {firstDiv.parentElement.removeAttribute("state");}
+    
     firstDiv = false;
 }
 
@@ -438,7 +469,7 @@ function drawItemList() {
     var td;
     var div;
     var game = readCookie("game");
-    if (!game) {game = "N64";}
+    if (!game) {game = "N64"; console.warn("NOTE: Couldn't read cookie. If you're not loading this page from a local file, there is something wrong with the code.");}
     for (var i = 0; i < grid.length;) {
         tr = document.createElement("TR");
         table.appendChild(tr);

@@ -7,6 +7,7 @@ function manageItemStates(item, set, state) {
     if (set) {
         itemstates[item] = state;
         drawMap();
+        drawSideInfo();
     } else {
         return itemstates[item];
     }

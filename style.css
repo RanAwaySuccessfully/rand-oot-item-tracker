@@ -7,7 +7,8 @@
 }
 body.noScroll {overflow: hidden;}
 
-.pixelatedscaling {image-rendering: pixelated;}
+.pixelatedscaling {image-rendering: pixelated; image-rendering: -moz-crisp-edges;}
+.pixelatedscaling img {-ms-interpolation-mode: nearest-neighbor;}
 
 section {margin: 0 20px 20px; background: #111; padding: 15px; position: relative;}
 header {text-align: center; margin: 10px 0; font-size: 30px;}
@@ -33,6 +34,16 @@ td[state="4"] {background-position: 0 -192px;}
 td[state="5"] {background-position: 0 -256px;}
 td[state="6"] {background-position: 0 -320px;}
 
+td[checkmark]:not(opacity100) {position: relative;}
+td[checkmark]:not(opacity100)::after {
+    content: url("checkmark2.png");
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    height: 32px;
+}
+
 td.opacity100 {opacity: 1;}
 .dragcontainer {height: 64px; width: 64px; overflow: hidden;}
 .dragcontainer img {width: 64px;}
@@ -46,7 +57,7 @@ td.sidebutton.settings {background: #1966B3;}
 .button:hover, input[type=number]:hover {background: #2C2C2C;}
 .button {background: #222; color: inherit; font: inherit; border: 0; padding: 3px 7px; margin-top: 25px; cursor: pointer;}
 select {background: #222; color: inherit; font: inherit; border: 1px solid #444; padding: 0 2px; margin: 7px 0;}
-input[type=range] {vertical-align: top;}
+input[type=range] {height: 11px;}
 input[type=number] {width: 50px; background: #222; color: inherit; font: inherit; border: 1px solid #444; padding: 2px 5px;}
 
 #message {text-align: center; font-size: 20px;}
@@ -132,12 +143,15 @@ input[type=number] {width: 50px; background: #222; color: inherit; font: inherit
 #map-side p {margin: 5px; text-align: center;}
 #map-side hr {height: 2px; border: 0; background: #FFF; margin: 3px 10px;}
 #map-side-title {font-size: 18px; font-weight: bold;}
-#map-side-list {margin-top: 4px; margin-bottom: 4px; overflow-y: auto; height: 210px;}
+#map-side-list {margin-top: 4px; margin-bottom: 4px; overflow-y: auto; height: 210px; list-style: square;}
 #map-side-list li {cursor: pointer;}
 
 li.unavailable, p.unavailable {color: #E61919;}
 li.available, p.available {color: #339933;}
 li.collected, p.collected {color: #808080;}
+
+li.collected {list-style: none;}
+li.collected::before {content: url("checkmark.png"); margin-left: -22px; padding-right: 6px; position: relative; top: 2px;}
 
 /* TOOLTIP */
 
