@@ -13,12 +13,8 @@ Items with `-n!` and `-s!` must also have `-n1!` and `-s1!` versions. These are 
 
 # To Do List
 
-**v0.10:**
-- Custom CSS
-- Chest Locations Fixes and Improvements
-- Ability to click on the bottom-right corner of a song/medallion/stone to mark that location as completed
-
-**v1.x:**
+- General Fixes and Improvements
 - Custom Icon Sets
+- Right-clicking on a medallion/song to mark it as collected doesn't have any effect on the map. It would be nice if items marked as collected in one appeared as collected on the other.
 
 It is **very** likely that there's things missing here. If you have any suggestions or questions, feel free to ask.
