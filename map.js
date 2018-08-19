@@ -343,17 +343,17 @@ var dungeonlist = [
             'Center Small Chest': { isAvailable:  function () {
                 return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
             'Back Left Bombable': { isAvailable:  function () {
-                return itemstates['item-ocarina'] && itemstates['song-storms'] && (itemstates['item-ocarina'] && itemstates['song-zelda'] || itemstates['upgrade-scale']); } },
-            'Coffin Key': { isAvailable:  function () {
                 return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-bombs']; } },
+            'Coffin Key': { isAvailable:  function () {
+                return itemstates['item-ocarina'] && itemstates['song-storms']; } },
             'Defeat Boss': { isAvailable:  function () {
-                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['equipment-sword-kokiri']; } },
+                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['song-zelda'] && itemstates['equipment-sword-kokiri']; } },
             'Invisible Chest': { isAvailable:  function () {
-                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
+                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['song-zelda'] && itemstates['item-truthlens'] && itemstates['upgrade-magic']; } },
             'Underwater Front Chest': { isAvailable: function () {
-                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-ocarina'] && itemstates['song-zelda'] ; } },
+                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['song-zelda'] ; } },
             'Underwater Left Chest': { isAvailable:  function () {
-                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-ocarina'] && itemstates['song-zelda']; } },
+                return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['song-zelda']; } },
             'Basement Chest': { isAvailable:  function () {
                 return itemstates['item-ocarina'] && itemstates['song-storms'] && itemstates['item-bombs']; } },
             'Locked Pits': { isAvailable:  function () {
