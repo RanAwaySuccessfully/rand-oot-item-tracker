@@ -56,22 +56,31 @@ function onLoad() {
                 "item-nayruslove"
             ],
             [
-                "equipment-tunic-goron",
-                "equipment-boots-iron",
-                "",
                 "upgrade-gauntlets-s!",
-                "equipment-sword-kokiri",
+                "upgrade-scale-s!",
+                "",
+                "",
+                "item-ocarina-s!",
                 "",
                 ""
             ],
             [
+                "equipment-tunic-goron",
                 "equipment-tunic-zora",
+                "",
+                "equipment-sword-kokiri",
+                "equipment-sword-master",
+                "equipment-sword-biggoron",
+                ""
+            ],
+            [
+                "equipment-boots-iron",
                 "equipment-boots-hover",
                 "",
-                "upgrade-scale-s!",
-                "equipment-sword-biggoron",
+                "equipment-shield-deku",
+                "equipment-shield-hylian",
                 "equipment-shield-mirror",
-                "item-ocarina-s!"
+                ""
             ],
             [
                 "song-zelda",

@@ -804,17 +804,17 @@ var dungeonlist = [
             'Skull Kid': { isAvailable: function () {
                 return (itemstates['item-ocarina'] && itemstates['song-saria']); } },
             'Deku Salesman': { isAvailable: function () {
-                return (true); } },
+                return (itemstates['equipment-shield-deku'] || (itemstates['equipment-shield-hylian'] && itemstates['equipment-sword-master'])); } },
             'Ocarina Memory Game': { isAvailable: function () {
                 return (true); } },
             'Target in Woods': { isAvailable: function () {
                 return (itemstates['item-slingshot']); } },
             'Bomb Grotto Chest': { isAvailable: function () {
-                return (itemstates['item-bombs'] || (itemstates['item-hammer'] && (item.SariasSong || itemstates['item-ocarina'] && itemstates['song-forest']))); } },
+                return (itemstates['item-bombs'] || (itemstates['item-hammer'] && (itemstates['song-saria'] || itemstates['item-ocarina'] && itemstates['song-forest']))); } },
             'Deku Salesman Grotto': { isAvailable: function () {
-                return (itemstates['item-bombs'] || itemstates['item-hammer']); } },
+                return ((itemstates['item-bombs'] || itemstates['item-hammer']) && (itemstates['equipment-shield-deku'] || (itemstates['equipment-shield-hylian'] && itemstates['equipment-sword-master']))); } },
             'Wolfos Grotto Chest': { isAvailable: function () {
-                return (itemstates['item-bombs'] || (itemstates['item-hammer'] && (item.SariasSong || itemstates['item-ocarina'] && itemstates['song-forest']))); } },
+                return (itemstates['item-bombs'] || (itemstates['item-hammer'] && (itemstates['song-saria'] || itemstates['item-ocarina'] && itemstates['song-forest']))); } },
             'Saria\'s Song': { isAvailable: function () {
                 return (true); } },
             'Minuet of Forest': { isAvailable: function () {
@@ -965,7 +965,7 @@ var owchestlist = [
         x: "42.0%",
         y: "64.0%",
         isAvailable: function(){
-            if(itemstates['item-bombs'] || itemstates['item-hammer'])
+            if((itemstates['item-bombs'] || itemstates['item-hammer']) && (itemstates['equipment-shield-deku'] || (itemstates['equipment-shield-hylian'] && itemstates['equipment-sword-master'])))
                 return "available";
             return "unavailable";
         }
