@@ -264,7 +264,7 @@ var dungeonlist = [
             'Eye Statue Chest': { isAvailable: function () {
                 return (itemstates['item-ocarina'] && itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['item-bow'] && (itemstates['song-time'] || itemstates['equipment-boots-hover'] || itemstates['item-hookshot'] >=2 || (checkLensLogic("standard"))); } },
             'Near Scarecrow Chest': { isAvailable: function () {
-                return (itemstates['item-ocarina'] && itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && checkLensLogic("standard"); } },
+                return (itemstates['item-ocarina'] && itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot'] && itemstates['item-bow'] && checkLensLogic("standard"); } },
             'Before Heavy Block Chest': { isAvailable:  function () {
                 return (itemstates['item-ocarina'] && itemstates['song-epona'] || itemstates['item-hookshot'] >= 2) && itemstates['item-hookshot']; } },
             'Heavy Block First Chest': { isAvailable:  function () {

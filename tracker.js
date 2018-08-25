@@ -85,8 +85,8 @@ function onLoad() {
             [
                 "song-zelda",
                 "song-epona",
-                "song-suns",
                 "song-saria",
+                "song-suns",
                 "song-time",
                 "song-storms",
                 "spiritualstone-kokiri"
@@ -95,8 +95,8 @@ function onLoad() {
                 "song-forest",
                 "song-fire",
                 "song-water",
-                "song-shadow",
                 "song-spirit",
+                "song-shadow",
                 "song-light",
                 "spiritualstone-goron"
             ],
@@ -104,8 +104,8 @@ function onLoad() {
                 "medallion-forest",
                 "medallion-fire",
                 "medallion-water",
-                "medallion-shadow",
                 "medallion-spirit",
+                "medallion-shadow",
                 "medallion-light",
                 "spiritualstone-zora"
             ]
