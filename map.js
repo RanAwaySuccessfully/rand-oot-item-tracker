@@ -7,7 +7,11 @@ function drawMap() {
         div = document.createElement("DIV");
         div.style.left = owchestlist[i].x;
         div.style.top = owchestlist[i].y;
-        div.className = "maplocation small " + owchestlist[i].isAvailable();
+        if (owchestlist[i].isOpened) {
+            div.className = "maplocation small collected";
+        } else {
+            div.className = "maplocation small " + owchestlist[i].isAvailable();
+        }
         div.innerHTML = '<span class="tooltiptext">' + owchestlist[i].name + '</span>';
         div.setAttribute("onclick", "toggleOWchest(this);");
         map.appendChild(div);
@@ -80,6 +84,8 @@ function toggleDungeonChest(sender) {
     } else if (dungeon.chestlist[chest].isAvailable()) {
         sender.className = "available"; 
     } else {sender.className = "unavailable";}
+    
+    saveChests();
     drawMap();
 }
 
@@ -94,7 +100,74 @@ function toggleOWchest(sender) {
     } else {
         sender.className = "maplocation small " + chest.isAvailable();
     }
+    
+    saveChests();
 }
+
+function saveChests() {
+    var array = [];
+    var string = "";
+    var i;
+    var j;
+    for (i in dungeonlist) {
+        for (j in dungeonlist[i].chestlist) {
+            if (dungeonlist[i].chestlist[j].isOpened) {string += 1;} else {string += 0;}
+        }
+        string = parseInt(string, 2);
+        string = string.toString(16);
+        array.push(string);
+        string = "";
+    }
+    i = 0;
+    for (i in owchestlist) {
+        if (owchestlist[i].isOpened) {string += "1";} else {string += "0";}
+    }
+    string = parseInt(string, 2);
+    string = string.toString(16);
+    array.push(string);
+    array = JSON.stringify(array);
+    createCookie("cheststates", array);
+}
+function readChests() {
+    var array = readCookie("cheststates");
+    if (!array) {return;}
+    array = JSON.parse(array);
+    var current = "";
+    var j = 0;
+    var key;
+    var numberofchests = 0;
+    
+    for (var i = 0; i < dungeonlist.length; i++) {
+        current = array[i];
+        current = parseInt(current, 16);
+        current = current.toString(2);
+        current = current.split("");
+        
+        for (key in dungeonlist[i].chestlist) {numberofchests++;}
+        while (current.length < numberofchests) {current.unshift("0");}
+        
+        for (key in dungeonlist[i].chestlist) {
+            if (current[j] === "1") {dungeonlist[i].chestlist[key].isOpened = true;}
+            j++;
+        }
+    }
+    
+    current = array[array.length - 1];
+    current = parseInt(current, 16);
+    current = current.toString(2);
+    current = current.split("");
+    
+    numberofchests = 0;
+    for (var i = 0; i < owchestlist.length; i++) {numberofchests++;}
+    while (current.length < numberofchests) {current.unshift("0");}
+    
+    for (var i = 0; i < owchestlist.length; i++) {
+        if (current[i] === "1") {owchestlist[i].isOpened = true;}
+    }
+}
+
+
+/* Logic Checks */
 
 
 function isBridgeOpen() {
@@ -553,15 +626,15 @@ var dungeonlist = [
         y: "16.0%",
         chestlist: {
             'Map Chest': { isAvailable:  function () {
-                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
+                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
             'Compass Chest': { isAvailable:  function () {
-                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
+                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
             'Heart Piece': { isAvailable:  function () {
-                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
+                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
             'Iron Boots Chest': { isAvailable:  function () {
-                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
+                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
             'Sheik in Ice Cavern': { isAvailable:  function () {
-                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter']&& itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
+                return (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-bottle-letter'] && itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle']; } },
         },
         isBeatable: function(){
             return this.canGetChest();
@@ -648,7 +721,7 @@ var dungeonlist = [
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
             'Light Trial Third Right Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3; } },
-            'Light Trail Invisible Enemies Chest': { isAvailable: function () {
+            'Light Trial Invisible Enemies Chest': { isAvailable: function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3 && (checkLensLogic("standard")); } },
             'Light Trial Lullaby Chest': { isAvailable:  function () {
                 return isBridgeOpen() && itemstates['upgrade-gauntlets'] >= 3 && itemstates['item-ocarina'] && itemstates['song-zelda']; } },
@@ -841,13 +914,13 @@ var dungeonlist = [
             'Zoras Domain Torch Run': { isAvailable: function () {
                 return ((itemstates['item-bombs'] && itemstates['item-ocarina'] && itemstates['song-zelda']) || itemstates['upgrade-scale']); } },
             'Fairy Fountain': { isAvailable: function () {
-                return (itemstates['item-bottle-letter']&& itemstates['item-bombs'] && itemstates['item-ocarina'] && itemstates['song-zelda']); } },
+                return (itemstates['item-bottle-letter'] && itemstates['item-bombs'] && itemstates['item-ocarina'] && itemstates['song-zelda']); } },
             'Iceberg Heart Piece': { isAvailable: function () {
-                return (itemstates['item-bottle-letter']&& (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-ocarina'] && itemstates['song-zelda']); } },
+                return (itemstates['item-bottle-letter'] && (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['item-ocarina'] && itemstates['song-zelda']); } },
             'Underwater Heart Piece': { isAvailable: function () {
-                return (itemstates['item-bottle-letter']&& (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['equipment-boots-iron'] && itemstates['item-ocarina'] && itemstates['song-zelda']); } },
+                return (itemstates['item-bottle-letter'] && (itemstates['item-bombs'] || itemstates['upgrade-scale']) && itemstates['equipment-boots-iron'] && itemstates['item-ocarina'] && itemstates['song-zelda']); } },
             'King Zora Thawed': { isAvailable: function () {
-                return (itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle'] && ((itemstates['item-bottle-letter']&& (itemstates['item-bombs'] || itemstates['upgrade-scale'])) || isBridgeOpen() || itemstates['upgrade-wallet'])); } },
+                return (itemstates['item-ocarina'] && itemstates['song-zelda'] && itemstates['item-bottle'] && ((itemstates['item-bottle-letter'] && (itemstates['item-bombs'] || itemstates['upgrade-scale'])) || isBridgeOpen() || itemstates['upgrade-wallet'] >= 2)); } },
         },
         isBeatable: function(){
             return this.canGetChest();

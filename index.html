@@ -23,7 +23,7 @@
           <col>
           <col>
         </colgroup>
-        <tbody id="itemtable" class="pixelatedscaling">
+        <tbody id="itemtable">
         </tbody>
       </table>
       <table>
@@ -35,7 +35,7 @@
           <col>
           <col>
         </colgroup>
-        <tbody id="itemsidetable" class="pixelatedscaling">
+        <tbody id="itemsidetable">
         </tbody>
       </table>
       
@@ -47,18 +47,18 @@
           <ul id="map-side-list" onselectstart="return false;"></ul>
         </div>
       </div>
-    
-      <div class="miscitems">
-      <input type="number" min="0" value="0" max="36"> HEART PIECES<br>
-      <input type="number" min="0" value="0" max="8"> HEART CONTAINERS<br>
-      <input type="number" min="0" value="0" max="100"> SKULLTULAS<br>
-      <input type="number" min="0" value="0" max="5"> MAGIC BEANS BOUGHT
+      
+      <div>
+        <div class="miscitem"><img src="N64/heart-piece.png"> <input type="number" min="0" value="0" max="36"></div>
+        <div class="miscitem"><img src="N64/heart-container.png"> <input type="number" min="0" value="0" max="8"></div>
+        <div class="miscitem"><img src="N64/skulltulas-n1!.png"> <input type="number" min="0" value="0" max="100"></div>
+        <div class="miscitem"><img src="N64/item-beans.png"> <input type="number" min="0" value="0" max="5"></div>
       </div>
-      <br>
-      <button id="editbutton" onclick="toggleGridEditable(this, true);"><br>EDIT</button>
     </section>
     
     <section id="message"><noscript>This page requires JavaScript to work. Alternatively, there are other downloadable item trackers that don't require JavaScript.</noscript></section>
+    
+    <button id="editbutton" onclick="toggleGridEditable(this, true);"><br>EDIT</button>
     
     <div id="overlay" class="hidden">
       <section>
@@ -94,11 +94,8 @@
           <option value="USR" disabled>Custom</option>
         </select>
         <br>
-        
-       <input type="checkbox" id="settings_pixelated" onchange="changePixelScaling(this.checked);" checked>&nbsp;<label for="settings_pixelated">Use nearest-neighbor (pixelated) scaling?</label>
-       <br>
        
-       <button class="button" onclick='createCookie("mapzoom", 0.6); window.open("https://ranawaysuccessfully.github.io/rand-oot-item-tracker/", "", "width=660,height=720");'>Pop-out Item Tracker</button> <button class="button" onclick="resetSettings();">Reset All Settings</button>
+       <button class="button" onclick='createCookie("mapzoom", 0.6); window.open("https://ranawaysuccessfully.github.io/rand-oot-item-tracker/", "", "width=660,height=720");'>Pop-out Item Tracker</button> <button class="button" onclick="resetSettings();">Reset All Settings</button> <button class="button" onclick="resetHalfSettings();">Reset Map/Items</button>
        <br>
        <button class="button" onclick="closeSettings()">Close Settings</button>
        

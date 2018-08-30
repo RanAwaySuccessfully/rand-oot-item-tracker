@@ -2,9 +2,10 @@
 window.onload = function() {onLoad()};
 
 function onLoad() {
-    var names = ["mapzoom", "map", "ganon", "game", "pixelated", "lenslogic"];
+    
+    var names = ["mapzoom", "map", "ganon", "game", "lenslogic"];
     var current_value;
-    var defaults = ["1", "side", "Open", "N64", true, "default"];
+    var defaults = ["1", "side", "Open", "N64", "default"];
     for (var i = 0; i < names.length; i++) {
         current_value = readCookie(names[i]);
         if (!current_value) {
@@ -15,14 +16,11 @@ function onLoad() {
         if (names[i] === "mapzoom") {changeZoom(current_value);}
         if (names[i] === "map") {document.getElementById('map').className = current_value;}
         if (names[i] === "game") {var game = current_value;}
-        if (names[i] === "pixelated") {
-            document.getElementById("settings_" + names[i]).checked = current_value;
-            changePixelScaling(current_value);
-            continue;
-        }
         
         document.getElementById("settings_" + names[i]).value = current_value;
     }
+    readItemStates();
+    
     var grid = readCookie("grid");
     if (grid) {
         grid = JSON.parse(grid);
@@ -121,7 +119,7 @@ function onLoad() {
             td = document.createElement("TD");
             if (grid[i][j]) {
                 td.style.backgroundImage = "url(" + game + "/" + grid[i][j] + ".png)";
-                td.setAttribute("state", "0");
+                td.setAttribute("state", manageItemStates(grid[i][j]));
                 td.setAttribute("onclick", "onClick(event, this);");
             }
             tr.appendChild(td);
@@ -129,6 +127,8 @@ function onLoad() {
         table.appendChild(tr);
     }
     document.getElementById("message").innerHTML = "You can click on an item to toggle its state.";
+    
+    readChests();
     drawMap();
 }
 function onClick(event, element) {
@@ -182,15 +182,6 @@ function changeIconSet(game) {
     }
     createCookie("game", game);
 }
-function changePixelScaling(value) {
-    if (value) {
-        document.getElementById("itemtable").className = "pixelatedscaling";
-        document.getElementById("itemsidetable").className = "pixelatedscaling";
-    } else {
-        document.getElementById("itemtable").removeAttribute("class");
-        document.getElementById("itemsidetable").removeAttribute("class");
-    }
-}
 function changeZoom(value) {
     document.getElementById("map").style.zoom = value;
     document.getElementById("map").style.MozTransform = "scale(" + (value) + ")";
@@ -199,7 +190,12 @@ function changeZoom(value) {
     createCookie("mapzoom", value);
 }
 function resetSettings() {
-    var cookies = ["mapzoom", "map", "ganon", "game", "pixelated", "grid", "lenslogic"];
+    var cookies = ["mapzoom", "map", "ganon", "game", "grid", "lenslogic", "itemstates", "cheststates"];
+    for (var i = 0; i < cookies.length; i++) {eraseCookie(cookies[i]);}
+    location.reload(true);
+}
+function resetHalfSettings() {
+    var cookies = ["ganon", "lenslogic", "itemstates", "cheststates"];
     for (var i = 0; i < cookies.length; i++) {eraseCookie(cookies[i]);}
     location.reload(true);
 }
@@ -293,7 +289,7 @@ function toggleGridEditable(button, state) {
         }
         button.setAttribute("onclick", "toggleGridEditable(this, true);");
         button.innerHTML = "<br>EDIT";
-        document.getElementById("message").innerHTML = "Ocarina of Time Randomizer Item Tracker - v0.10";
+        document.getElementById("message").innerHTML = "Ocarina of Time Randomizer Item Tracker - v0.11";
         document.getElementById("itemsidetable").innerHTML = "";
         grid = JSON.stringify(grid);
         createCookie("grid", grid);
@@ -479,6 +475,7 @@ function drawItemList() {
     var tr;
     var td;
     var div;
+    var query;
     var game = readCookie("game");
     if (!game) {game = "N64"; console.warn("NOTE: Couldn't read cookie. If you're not loading this page from a local file, there is something wrong with the code.");}
     for (var i = 0; i < grid.length;) {
@@ -492,7 +489,11 @@ function drawItemList() {
             div.setAttribute("ondrop", "drop(event)");
             div.setAttribute("ondragover", "allowDrop(event)");
             div.setAttribute("onclick", "itemClick(event)");
-            if (grid[i] && !document.querySelector("[src='" + game + "/" + grid[i] + ".png']")) {
+            query = document.querySelector("[src='" + game + "/" + grid[i] + ".png']");
+            if (query) {
+                if (!isChildOf(query, document.getElementById("itemtable"))) {query = false;}
+            }
+            if (grid[i] && !query) {
                 div.innerHTML = "<img src='" + game + "/" + grid[i] + ".png' draggable='true' ondragstart='drag(event)'>";
             }
             td.appendChild(div);
@@ -501,6 +502,16 @@ function drawItemList() {
             i++;
         }
     }
+}
+
+/* IS CHILD OF */
+
+function isChildOf(child, parent) {
+    if (child.parentNode === parent) {
+        return true;
+    } else if (child.parentNode === null) {
+        return false;
+    } else {return isChildOf(child.parentNode, parent);}
 }
 
 /* COOKIE FUNCTIONS */

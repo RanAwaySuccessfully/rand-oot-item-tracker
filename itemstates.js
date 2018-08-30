@@ -8,9 +8,23 @@ function manageItemStates(item, set, state) {
         itemstates[item] = state;
         drawMap();
         drawSideInfo();
+        saveItemStates();
     } else {
         return itemstates[item];
     }
+}
+function saveItemStates() {
+    var string = "";
+    var i;
+    for (i in itemstates) {string += itemstates[i];}
+    createCookie("itemstates", string);
+}
+function readItemStates() {
+    var string = readCookie("itemstates");
+    if (!string) {return;}
+    var array = string.split("");
+    var i;
+    for (i in itemstates) {itemstates[i] = array[i];}
 }
 var itemstates = {
     "item-bow": 0,
@@ -82,4 +96,10 @@ var itemstates = {
     "medallion-spirit": 0,
     "medallion-shadow": 0,
     "medallion-light": 0
+};
+var sidestates = {
+    "heart-piece": 0,
+    "heart-container": 0,
+    "skulltullas": 0,
+    "item-beans": 0
 };
