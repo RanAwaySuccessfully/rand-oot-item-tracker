@@ -23,7 +23,7 @@ function readItemStates() {
     var string = readCookie("itemstates");
     if (!string) {return;}
     var array = string.split("");
-    var i;
+    var i = 0;
     var key;
     for (key in itemstates) {itemstates[key] = array[i]; i++;}
 }
