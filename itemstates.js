@@ -25,7 +25,7 @@ function readItemStates() {
     var array = string.split("");
     var i = 0;
     var key;
-    for (key in itemstates) {itemstates[key] = array[i]; i++;}
+    for (key in itemstates) {itemstates[key] = parseInt(array[i]); i++;}
 }
 var itemstates = {
     "item-bow": 0,
