@@ -32,9 +32,16 @@ function drawMap() {
         if (DCcount === 0) {DCcount = "";}
         
         div.innerHTML = DCcount + '<span class="tooltiptext">' + dungeonlist[i].name + '</span>';
-        div.setAttribute("onclick", "drawSideInfo(" + i + ");");
+        div.setAttribute("onclick", "drawSideInfo(" + i + "); selectDungeon(this);");
         map.appendChild(div);
     }
+}
+function selectDungeon(element) {
+    var clear = document.querySelectorAll(".maplocation[selected]");
+    for (var i = 0; i < clear.length; i++) {
+        clear[i].removeAttribute("selected");
+    }
+    element.setAttribute("selected", "");
 }
 function drawSideInfo(number) {
     

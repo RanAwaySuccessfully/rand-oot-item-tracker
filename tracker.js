@@ -3,9 +3,10 @@ window.onload = function() {onLoad()};
 
 function onLoad() {
     
-    var names = ["mapzoom", "map", "ganon", "game", "lenslogic"];
+    // look at the cookies, grab stuff from there
+    var names = ["mapzoom", "map", "ganon", "game", "checkmark", "lenslogic"];
     var current_value;
-    var defaults = ["1", "side", "Open", "N64", "default"];
+    var defaults = ["1", "side", "Open", "N64", "display", "default"];
     for (var i = 0; i < names.length; i++) {
         current_value = readCookie(names[i]);
         if (!current_value) {
@@ -16,11 +17,17 @@ function onLoad() {
         if (names[i] === "mapzoom") {changeZoom(current_value);}
         if (names[i] === "map") {document.getElementById('map').className = current_value;}
         if (names[i] === "game") {var game = current_value;}
+        if (names[i] === "checkmark") {
+            changeCheckMark(current_value);
+            document.getElementById("settings_" + names[i]).checked = current_value;
+            continue;
+        }
         
         document.getElementById("settings_" + names[i]).value = current_value;
     }
     readItemStates();
     
+    // begin setting up the item tracker grid
     var grid = readCookie("grid");
     if (grid) {
         grid = JSON.parse(grid);
@@ -121,6 +128,8 @@ function onLoad() {
                 td.style.backgroundImage = "url(" + game + "/" + grid[i][j] + ".png)";
                 td.setAttribute("state", manageItemStates(grid[i][j]));
                 td.setAttribute("onclick", "onClick(event, this);");
+                td.setAttribute("oncontextmenu", "onClick(event, this, true);");
+                td.addEventListener("contextmenu", letsNot);
             }
             tr.appendChild(td);
         }
@@ -128,10 +137,15 @@ function onLoad() {
     }
     document.getElementById("message").innerHTML = "You can click on an item to toggle its state.";
     
+    readSideStates();
+    dungeonTable();
     readChests();
     drawMap();
 }
-function onClick(event, element) {
+
+/* ITEM TRACKER */
+
+function onClick(event, element, reverse) {
     
     var state = Number(element.getAttribute("state"));
     
@@ -140,20 +154,34 @@ function onClick(event, element) {
     img.src = src;
     var max_state = img.height / img.width;
     
+    // this is the checkmark on the bottom-right corner of some items
     if (src.match(/(song-)|(medallion-)|(spiritualstone-)/g)) {
-        if (event.offsetX >= 32 && event.offsetY >= 32) {cornerClick(element); return;}
-    } // check if the element is a song, medallion or a spiritual stone, and that it was clicked on the bottom-right corner
-    
-    var updatingType = src.search(/(n|s)!/g); // this will return the position of the match (src.match doesn't work here)
-    if (updatingType) {updatingType = src.substr(updatingType, 2);} // replace the position number with the substring
-    
-    if (state >= max_state) {state = 0;} else {
-        if (updatingType === "n!" && state === 0) {state++;} // skip state=1
-        state++;
+        var canBeDisplayed = document.getElementById("itemtable").getAttribute("class");
+        if (event.offsetX >= 32 && event.offsetY >= 32 && canBeDisplayed) {cornerClick(element); return;}
     }
+    
+    // var updatingType = src.search(/(n|s)!/g);
+    // if (updatingType) {updatingType = src.substr(updatingType, 2);}
+    
+    var updatingTypeN = src.match(/n!/g);
+    
+    if (reverse) {
+        if (state <= 0) {state = max_state;} else {
+            if (updatingTypeN && state === 2) {state--;} // skip state=1
+            state--;
+        }
+    } else {
+        if (state >= max_state) {state = 0;} else {
+            if (updatingTypeN && state === 0) {state++;} // skip state=1
+            state++;
+        }
+    }
+    
+    
     element.setAttribute("state", state);
     manageItemStates(src, true, state);
 }
+
 function cornerClick(element) {
     if (element.getAttribute("checkmark")) {
         element.removeAttribute("checkmark");
@@ -161,6 +189,122 @@ function cornerClick(element) {
         element.setAttribute("checkmark", "1");
     }
 }
+
+/* DUNGEON TRACKER */
+
+function dungeonTable() {
+    var game = readCookie("game");
+    if (!game) {game = "N64"; console.warn("NOTE: Couldn't read cookie. If you're not loading this page from a local file, there is something wrong with the code.");}
+    // ["dungeonname", necessarykeys, maxkeys, bosskey, medallion];
+    var dungeons = [
+        ["Deku Tree",          0, 0, 0, 1],
+        ["Dodongo's Cavern",   0, 0, 0, 1],
+        ["Jabu-Jabu's Belly",  0, 0, 0, 1],
+        ["Forest Temple",      5, 5, 1, 1],
+        ["Fire Temple",        7, 8, 1, 1],
+        ["Water Temple",       6, 6, 1, 1],
+        ["Spirit Temple",      5, 5, 1, 1],
+        ["Shadow Temple",      5, 5, 1, 1],
+        ["Light Temple",       0, 0, 0, 1],
+        ["Ganon's Castle",     2, 2, 1, 0],
+        ["Bottom of the Well", 1, 3, 0, 0],
+        ["Gerudo's Fortress",  4, 4, 0, 0],
+        ["G. Training Ground", 9, 9, 0, 0]
+    ];
+    var medallions = ["unknown", "spiritualstone-kokiri", "spiritualstone-goron", "spiritualstone-zora", "medallion-forest", "medallion-fire", "medallion-water", "medallion-spirit", "medallion-shadow", "medallion-light"];
+    var placeholders = [
+        "code, go home",
+        "you're drunk",
+        ["key-normal", "-keycount"],
+        ["key-boss", "-bosskey"],
+        ["", "-medallion"]
+    ];
+    var table = document.getElementById("dungeontable");
+    var tr;
+    var td;
+    var current;
+    var state;
+    for (var i = 0; i < dungeons.length; i++) {
+        tr = document.createElement("TR");
+        
+        td = document.createElement("TD");
+        td.innerHTML = dungeons[i][0];
+        tr.appendChild(td);
+        
+        for (var j = 4; j > 1; j--) {
+            
+            td = document.createElement("TD");
+            
+            if (dungeons[i][j]) {
+                
+                current = placeholders[j][0];
+                if (!current) {
+                    current = medallions[manageItemStates("d" + i + placeholders[j][1])];
+                    td.className = "progressiveupdating";
+                } 
+                if (j !== 2) {
+                    td.setAttribute("onclick", "dungeonOnClick(event, this, " + i + ");");
+                    td.setAttribute("oncontextmenu", "dungeonOnClick(event, this, " + i + ", true);");
+                    td.addEventListener("contextmenu", letsNot);
+                }
+                if (j === 3) {
+                    state = manageItemStates("d" + i + placeholders[j][1]);
+                } else {state = "1";}
+                
+                td.style.backgroundImage = "url(" + game + "/" + current + ".png)";
+                td.setAttribute("state", state);
+                
+                if (j === 2) {
+                    tr.appendChild(td);
+                    td = document.createElement("TD");
+                    td.innerHTML = '<input type="number" value="' + manageItemStates("d" + i + "-keycount") + '" min="0" max="' + dungeons[i][2] + '" oninput="manageItemStates(\'d' + i + '-keycount\', true, Number(this.value), Number(this.getAttribute(\'max\')));">';
+                }
+            }
+            
+            tr.appendChild(td);
+            
+        }
+        
+        table.appendChild(tr);
+    }
+}
+function dungeonOnClick(event, element, n, reverse) {
+    
+    var string;
+    if (element.className === "progressiveupdating") {
+        string = "-medallion";
+        var src = element.style.backgroundImage.replace(/url\("/g, "").replace(/.png"\)/g, "");
+        var src = src.replace(/(N64|3DS|USR)\//g, "");
+        var medallions = ["unknown", "spiritualstone-kokiri", "spiritualstone-goron", "spiritualstone-zora", "medallion-forest", "medallion-fire", "medallion-water", "medallion-spirit", "medallion-shadow", "medallion-light"];
+        
+        var game = readCookie("game");
+        if (!game) {game = "N64"; console.warn("NOTE: Couldn't read cookie. If you're not loading this page from a local file, there is something wrong with the code.");}
+        
+        for (var i = 0; i < medallions.length; i++) {
+            if (medallions[i] === src) {break;}
+        }
+        
+        if (reverse) {
+            if (i <= 0) {i = (medallions.length - 1);} else {i--;}
+        } else {
+            if (i >= (medallions.length - 1)) {i = 0;} else {i++;}
+        }
+        
+        element.style.backgroundImage = "url(" + game + "/" + medallions[i] + ".png)";
+        state = i;
+    } else {
+        string = "-bosskey";
+        var state = Number(element.getAttribute("state"));
+        
+        if (state >= 1) {state = 0;} else {state++;}
+        
+        element.setAttribute("state", state);
+    }
+    string = "d" + n + string;
+    
+    manageItemStates(string, true, state);
+}
+function letsNot(e) {e.preventDefault();}
 
 /* SETTINGS */
 
@@ -174,12 +318,23 @@ function closeSettings() {
 }
 function changeIconSet(game) {
     if (!game) {return;}
-    var imagelist = document.querySelectorAll("img[src]"); // this could potentially cause problems???
+    var imagelist = document.querySelectorAll("img[src]");
     var src;
     for (var i = 0; i < imagelist.length; i++) {
         src = imagelist[i].getAttribute("src");
-        imagelist[i].src = src.replace(/(N64|3DS|USR)\//g,  game + "/"); // okay, maybe not actually
+        imagelist[i].src = src.replace(/(N64|3DS|USR)\//g,  game + "/");
     }
+    
+    var trlist = document.getElementById("dungeontable").children;
+    var tdlist;
+    for (var i = 0; i < trlist.length; i++) {
+        tdlist = trlist[i].children;
+        for (var j = 0; j < tdlist.length; j++) {
+            src = tdlist[j].style.backgroundImage;
+            tdlist[j].style.backgroundImage = src.replace(/(N64|3DS|USR)\//g,  game + "/");
+        }
+    }
+    
     createCookie("game", game);
 }
 function changeZoom(value) {
@@ -189,8 +344,15 @@ function changeZoom(value) {
     document.getElementById("settings_mapzoom2").innerHTML = parseInt(value * 100) + "%";
     createCookie("mapzoom", value);
 }
+function changeCheckMark(value) {
+    if (value) {
+        document.getElementById("itemtable").className = "checkmark";
+    } else {
+        document.getElementById("itemtable").removeAttribute("class");
+    }
+}
 function resetSettings() {
-    var cookies = ["mapzoom", "map", "ganon", "game", "grid", "lenslogic", "itemstates", "cheststates"];
+    var cookies = ["mapzoom", "map", "ganon", "game", "grid", "checkmarks", "lenslogic", "itemstates", "cheststates", "sidestates"];
     for (var i = 0; i < cookies.length; i++) {eraseCookie(cookies[i]);}
     location.reload(true);
 }
@@ -276,6 +438,7 @@ function toggleGridEditable(button, state) {
                     }
                     stringToPush = td[j].style.backgroundImage.replace(/url\("(N64|3DS|USR)\//g, "").replace('.png")', "");
                     td[j].setAttribute("onclick", "onClick(event, this);");
+                    td[j].setAttribute("oncontextmenu", "onClick(event, this, true);");
                 }
                 grid[i].push(stringToPush);
                 stringToPush = "";
@@ -289,7 +452,7 @@ function toggleGridEditable(button, state) {
         }
         button.setAttribute("onclick", "toggleGridEditable(this, true);");
         button.innerHTML = "<br>EDIT";
-        document.getElementById("message").innerHTML = "Ocarina of Time Randomizer Item Tracker - v0.11";
+        document.getElementById("message").innerHTML = "Ocarina of Time Randomizer Item Tracker - v0.12";
         document.getElementById("itemsidetable").innerHTML = "";
         grid = JSON.stringify(grid);
         createCookie("grid", grid);
@@ -429,7 +592,7 @@ function drawItemList() {
         "item-faroreswind",
         "item-nayruslove",
         "item-truthmask",
-        "upgrade-agony",
+        "upgrade-magic-s1!",
         "item-sticks-n1!",
         "item-nuts-n1!",
         "item-bombs-n1!",
@@ -443,32 +606,34 @@ function drawItemList() {
         "item-beans",
         "item-hammer",
         "item-bottle-n1!",
+        "item-bottle-letter",
+        "item-bottle-bigpoe",
+        "item-weirdegg",
+        "song-zelda",
+        "song-epona",
+        "scarecrow",
+        "gerudo-token",
+        "upgrade-agony",
         "spiritualstone-kokiri",
         "spiritualstone-goron",
         "spiritualstone-zora",
-        "song-zelda",
-        "song-epona",
+        "song-saria",
+        "song-suns",
         "song-forest",
         "song-fire",
         "song-water",
         "song-shadow",
         "song-spirit",
         "song-light",
-        "song-suns",
-        "song-saria",
+        "song-time",
+        "song-storms",
         "medallion-forest",
         "medallion-fire",
         "medallion-water",
         "medallion-shadow",
         "medallion-spirit",
         "medallion-light",
-        "song-time",
-        "song-storms",
-        "item-bottle-letter",
-        "upgrade-magic-s1!",
-        "gerudo-token",
-        "item-weirdegg",
-        "scarecrow"
+        ""
     ]
     var table = document.getElementById("itemsidetable");
     table.innerHTML = "";

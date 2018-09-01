@@ -34,8 +34,8 @@ td[state="4"] {background-position: 0 -192px;}
 td[state="5"] {background-position: 0 -256px;}
 td[state="6"] {background-position: 0 -320px;}
 
-td[checkmark]:not(opacity100) {position: relative;}
-td[checkmark]:not(opacity100)::after {
+.checkmark td[checkmark]:not(opacity100) {position: relative;}
+.checkmark td[checkmark]:not(opacity100)::after {
     content: url("checkmark2.png");
     position: absolute;
     bottom: 0;
@@ -54,7 +54,14 @@ td.sidebutton.settings {background: #1966B3;}
 
 #itemsidetable td {border-color: #FFF;}
 
+#dungeontable {border-collapse: collapse;}
+#dungeontable td:first-of-type {width: 200px; text-align: center;}
+#dungeontable td {border-color: #FFF; width: 32px; height: 32px;}
+
+#dungeontable input {background: transparent; border: none; color: inherit; font: inherit; padding-left: 15px; width: 40px;}
+
 .miscitem {background: #222; border-radius: 5px; padding: 10px; display: inline-flex; width: 200px;}
+.miscitem img {flex-shrink: 0;}
 .miscitem input {
     width: 100%;
     margin-left: 10px;
@@ -66,6 +73,19 @@ td.sidebutton.settings {background: #1966B3;}
     border: none;
     border-left: 2px solid #444;
     outline: none;
+}
+
+.miscdungeon {background: #222; border-radius: 5px; padding: 10px; display: inline-block; width: 200px; text-align: center;}
+.miscdungeon img {width: 32px;}
+.miscdungeon h3 {border-bottom: 2px solid #444; margin: 0 0 10px; color: #DDD;}
+.miscdungeon input {
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    vertical-align: top;
 }
 
 .button:hover {background: #2C2C2C;}
@@ -107,6 +127,7 @@ input[type=range] {height: 11px;}
 
 /* MAP TRACKER */
 
+.maplocation[selected] {border-color: #FFF;}
 .maplocation {
     width: 24px;
     height: 24px;
