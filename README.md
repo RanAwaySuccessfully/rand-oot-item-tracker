@@ -13,10 +13,9 @@ Items with `-n!` and `-s!` must also have `-n1!` and `-s1!` versions. These are 
 
 # To Do List
 
-- Make a version with the v2.5 logic
-- Dungeon Trackers (what medallion is in that dungeon, key counters, boss key marker)
+- Add Skulltula Locations to the Map Tracker
+- Creating a toggle for v2.0 and v2.15 logic (and also implement a version of `map.js` with said logic)
 - Custom Icon Sets
 - Right-clicking on a medallion/song to mark it as collected doesn't have any effect on the map. It would be nice if items marked as collected in one appeared as collected on the other.
-- Having an option to disable the checkmark on all songs or all songs+medallions+stones.
 
 It is **very** likely that there's things missing here. If you have any suggestions or questions, feel free to ask.
