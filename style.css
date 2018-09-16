@@ -185,6 +185,8 @@ input[type=range] {height: 11px;}
     background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
+    max-height: 100vh;
+    overflow: auto;
 }
 #overlay.hidden, #overlay2.hidden {display: none;}
 #overlay section, #overlay2 section {margin: auto; padding: 25px;}
