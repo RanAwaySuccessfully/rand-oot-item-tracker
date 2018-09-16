@@ -11,7 +11,18 @@ body.noScroll {overflow: hidden;}
 .pixelatedscaling img {-ms-interpolation-mode: nearest-neighbor;}
 
 section, footer {margin: 10px 5px; background: #111; padding: 15px; position: relative;}
-footer {text-align: center; font-size: 20px; position: fixed; border-top: 2px solid #777; bottom: 0; left: 0; margin: 0; width: 100%;}
+footer {
+    text-align: center;
+    font-size: 20px;
+    padding-right: 100px;
+    box-sizing: border-box;
+    position: fixed;
+    border-top: 2px solid #777;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+}
 header {text-align: center; margin: 10px 0; font-size: 30px;}
 h1 {font-size: 30px;}
 h2 {margin: 2em 0 0; font-size: 20px;}
