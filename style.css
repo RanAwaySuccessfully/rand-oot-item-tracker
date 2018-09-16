@@ -307,6 +307,7 @@ li.collected::before {content: url("checkmark.png"); margin-left: -22px; padding
 
 @media all and (max-width: 640px) {
     #itemtable, #itemsidetable {zoom: 0.75;}
+    footer {font-size: 15px;}
 }
 
 @media all and (max-width: 500px) {
