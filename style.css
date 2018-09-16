@@ -10,9 +10,16 @@ body.noScroll {overflow: hidden;}
 .pixelatedscaling {image-rendering: pixelated; image-rendering: -moz-crisp-edges;}
 .pixelatedscaling img {-ms-interpolation-mode: nearest-neighbor;}
 
-section {margin: 0 20px 20px; background: #111; padding: 15px;}
+section, footer {margin: 10px 5px; background: #111; padding: 15px; position: relative;}
+footer {text-align: center; font-size: 20px; position: fixed; border-top: 2px solid #777; bottom: 0; left: 0; margin: 0; width: 100%;}
 header {text-align: center; margin: 10px 0; font-size: 30px;}
-h1 {margin: 0;}
+h1 {font-size: 30px;}
+h2 {margin: 2em 0 0; font-size: 20px;}
+
+a {color: #888; text-decoration: none;}
+a:hover {color: #AAA; text-decoration: underline;}
+a:active {color: #DDD;}
+ul {list-style-type: square; margin: 0; padding-left: 30px;}
 
 .labelinput {width: 240px; display: inline-block; border-bottom: 1px solid #FFF;}
 input, select {font-family: inherit; margin: 1px 0;}
@@ -20,8 +27,6 @@ input, select {font-family: inherit; margin: 1px 0;}
 table {display: inline-block; vertical-align: top;}
 td {
     border: 1px solid #111;
-    width: 64px;
-    height: 64px;
     background-repeat: no-repeat;
     background-size: 100%;
     padding: 0;
@@ -33,6 +38,8 @@ td[state="3"] {background-position: 0 -128px;}
 td[state="4"] {background-position: 0 -192px;}
 td[state="5"] {background-position: 0 -256px;}
 td[state="6"] {background-position: 0 -320px;}
+
+#itemtable td, #itemsidetable td {min-width: 64px; width: 64px; height: 64px;}
 
 .checkmark td[checkmark]:not(opacity100) {position: relative;}
 .checkmark td[checkmark]:not(opacity100)::after {
@@ -46,26 +53,48 @@ td[state="6"] {background-position: 0 -320px;}
 
 td.opacity100 {opacity: 1;}
 .dragcontainer {height: 64px; width: 64px; overflow: hidden;}
-.dragcontainer img {width: 64px;}
+.dragcontainer img {width: 64px}
 td.sidebutton {font-size: 46px; border-color: #FFF; font-weight: bold; text-align: center; cursor: pointer;}
 td.sidebutton.add {background: #19B319;}
 td.sidebutton.remove {background: #B31919;}
-td.sidebutton.settings {background: #1966B3;}
+td.sidebutton.settings {background: #1966B3; font-size: 25px;}
 
 #itemsidetable td {border-color: #FFF;}
 
-#dungeontable {border-collapse: collapse;}
-#dungeontable td:first-of-type {width: 200px; text-align: center;}
-#dungeontable td {border-color: #FFF; width: 32px; height: 32px;}
-
-#dungeontable input {background: transparent; border: none; color: inherit; font: inherit; padding-left: 15px; width: 40px;}
-
-.miscitem {background: #222; border-radius: 5px; padding: 10px; display: inline-flex; width: 200px;}
+#miscitems {clear: both;}
+.miscitem {background: #222; border-radius: 5px; padding: 10px; display: inline-flex; width: 210px; margin-right: 5px;}
 .miscitem img {flex-shrink: 0;}
+
+.miscitem button:first-of-type {
+    margin-top: 1px;
+    border-bottom: 1px solid #333;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.miscitem button:last-of-type {
+    margin-bottom: 1px;
+    border-top: 1px solid #333;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.miscitem button:hover {background: #555;}
+.miscitem button {
+    border: none;
+    background: #444;
+    padding: 5px;
+    font-size: 0;
+    text-align: center;
+    color: inherit;
+    outline: none;
+    cursor: pointer;
+}
 .miscitem input {
+    min-width: 1px; /* FIREFOX FIX */
+    box-shadow: none; /* FIREFOX FIX */
     width: 100%;
     margin-left: 10px;
-    padding-left: 45px;
+    padding: 0 0 0 5px;
+    text-align: center;
     background: transparent;
     color: inherit;
     font: inherit;
@@ -73,27 +102,51 @@ td.sidebutton.settings {background: #1966B3;}
     border: none;
     border-left: 2px solid #444;
     outline: none;
+    -moz-appearance: textfield;
+}
+.miscitem input::-webkit-outer-spin-button, .miscitem input::-webkit-inner-spin-button {-webkit-appearance: none;}
+
+#dungeontable {border-collapse: collapse;}
+#dungeontable td:first-of-type {width: 200px; text-align: center;}
+#dungeontable td {border-color: #FFF; min-width: 32px; width: 32px; height: 32px;}
+#dungeontable input {background: transparent; border: none; color: inherit; font: inherit; padding-left: 15px; width: 40px;}
+
+
+/* ICON SIZES */
+#mainsection.s32 #itemtable td, #mainsection.s32 #itemsidetable td {
+    min-width: 32px;
+    width: 32px;
+    max-width: 32px;
+    height: 32px;
 }
 
-.miscdungeon {background: #222; border-radius: 5px; padding: 10px; display: inline-block; width: 200px; text-align: center;}
-.miscdungeon img {width: 32px;}
-.miscdungeon h3 {border-bottom: 2px solid #444; margin: 0 0 10px; color: #DDD;}
-.miscdungeon input {
-    background: transparent;
+#mainsection.s32 td[state="2"] {background-position: 0 -32px;}
+#mainsection.s32 td[state="3"] {background-position: 0 -64px;}
+#mainsection.s32 td[state="4"] {background-position: 0 -96px;}
+#mainsection.s32 td[state="5"] {background-position: 0 -128px;}
+#mainsection.s32 td[state="6"] {background-position: 0 -160px;}
+
+#mainsection.s32 .dragcontainer {height: 32px; width: 32px; overflow: hidden;}
+#mainsection.s32 .dragcontainer img {width: 32px;}
+#mainsection.s32 td.sidebutton {font-size: 23px;}
+#mainsection.s32 td.sidebutton.settings {font-size: 13px;}
+
+
+/* EDIT BUTTON AND SETTINGS */
+
+.button:hover, label.file:hover {background: #2C2C2C;}
+.button, label.file {
+    background: #222;
     color: inherit;
     font: inherit;
-    font-size: 20px;
-    border: none;
-    outline: none;
-    vertical-align: top;
+    border: 0;
+    padding: 3px 7px;
+    margin-top: 25px;
+    cursor: pointer;
 }
-
-.button:hover {background: #2C2C2C;}
-.button {background: #222; color: inherit; font: inherit; border: 0; padding: 3px 7px; margin-top: 25px; cursor: pointer;}
 select {background: #222; color: inherit; font: inherit; border: 1px solid #444; padding: 0 2px; margin: 7px 0;}
 input[type=range] {height: 11px;}
 
-#message {text-align: center; font-size: 20px;}
 #editbutton {
     background: linear-gradient(135deg, transparent 50%, #333 50%);
     border: 0;
@@ -112,7 +165,7 @@ input[type=range] {height: 11px;}
 }
 #editbutton:hover {background: linear-gradient(135deg, transparent 50%, #444 50%);}
 
-#overlay {
+#overlay, #overlay2 {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -122,8 +175,24 @@ input[type=range] {height: 11px;}
     display: flex;
     align-items: center;
 }
-#overlay.hidden {display: none;}
-#overlay section {margin: auto; padding: 25px;}
+#overlay.hidden, #overlay2.hidden {display: none;}
+#overlay section, #overlay2 section {margin: auto; padding: 25px;}
+
+#overlay2 h2 {margin: 0 0 10px 0;}
+#overlay2 input[type=checkbox] {margin: 0 0 10px;}
+#overlay2 input[type=file] {display: none;}
+#overlay2 textarea {width: 100%; height: 50px;}
+
+#map.below {display: block; margin: 0;}
+#map.margin {display: block; margin: 0 auto;}
+#map.none {display: none;}
+
+#dungeontable.below {display: block; margin: 0;}
+#dungeontable.margin {display: block; margin: 0 auto;}
+#dungeontable.right {float: right;}
+#dungeontable.force {position: absolute; bottom: 0; right: 0;}
+#dungeontable.none {display: none;}
+
 
 /* MAP TRACKER */
 
@@ -163,9 +232,6 @@ input[type=range] {height: 11px;}
     left: 0px;
     display: inline-block;
 }
-#map.below {display: block; margin: 0;}
-#map.margin {display: block; margin: 0 auto;}
-#map.none {display: none;}
 
 #map-side {
     background-color: black;
@@ -190,6 +256,7 @@ li.collected, p.collected {color: #808080;}
 
 li.collected {list-style: none;}
 li.collected::before {content: url("checkmark.png"); margin-left: -22px; padding-right: 6px; position: relative; top: 2px;}
+
 
 /* TOOLTIP */
 
@@ -223,6 +290,7 @@ li.collected::before {content: url("checkmark.png"); margin-left: -22px; padding
 .maplocation:hover .tooltiptext {
     visibility: visible;
 }
+
 
 /* MOBILE AND SMALLER SCREENS */
 
