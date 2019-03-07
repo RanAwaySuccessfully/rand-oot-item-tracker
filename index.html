@@ -7,118 +7,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open%20Sans:400,700">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.png">
-    <script src="js/other.js" async></script>
-    <script src="js/chests.js" async></script>
-    <!--<script src="js/skulltulas.js" async></script>-->
-    <script src="js/map.js" async></script>
-    <script src="js/itemstates.js" async></script>
-    <script src="js/tracker.js" defer></script>
-    <style>body {margin-bottom: 75px;}</style>
+    <style>
+      section, footer {max-width: 800px; margin: 20px auto;}
+    </style>
   </head>
   <body>
 
-    <section id="mainsection">
-      <table id="itemtable"></table>
-      <table id="itemsidetable"></table>
+    <section>
+      <h1>This tracker is outdated. <a href="https://track-oot.2deep4real.de/">Use this other one instead.</a></h1>
       
-      <table id="dungeontable"></table>
-      
-      <div id="map">
-        <div id="map-locations"></div>
-        <div id="map-side">
-          <p id="map-side-title">Hyrule</p>
-          <hr>
-          <ul id="map-side-list" onselectstart="return false;"></ul>
-        </div>
-      </div>
-      <br><br>
-      <div id="miscitems"></div>
+      <p><small>Or if you really want to, <a href="tracker">you can use this one either way.</a></small></p>
     </section>
     
-    <footer><a href="javascript:;" onclick="displayOverlay2();">Import/Export</a> - Ocarina of Time Randomizer Item Tracker - v0.13 - <a href="helpabout">Help/About</a></footer>
-    
-    <!-- ABSOLUTE POSITIONED ELEMENTS AND OTHER NON-STATIC THINGS -->
-    
-    <button id="editbutton" onclick="toggleGridEditable(this, true);"><br>EDIT</button>
-    
-    <div id="overlay" class="hidden">
-      <section>
-        
-        
-        LENS OF TRUTH LOGIC: <select id="settings_lenslogic" onchange="createCookie('lenslogic', this.value); drawMap(); drawSideInfo();">
-          <option value="default">Required everywhere</option>
-          <option value="no1in32desert">Wasteland and Chest Minigame</option>
-          <option value="no1in32">Only Chest Minigame</option>
-        </select>
-        <br>
-        
-        BRIDGE LOGIC: <select id="settings_ganon" onchange="createCookie('ganon', this.value); drawMap(); drawSideInfo();">
-          <option value="Open">Always open</option>
-          <option value="Vanilla">Vanilla requirements</option>
-          <option value="Medallions">All medallions</option>
-          <option value="Dungeons">All dungeons</option>
-        </select>
-        <br>
-        
-        <br>
-        
-        ICON SIZE: <select id="settings_iconsize" onchange="document.getElementById('mainsection').className = this.value; createCookie('iconsize', this.value);">
-          <option value="">64px</option>
-          <option value="s32">32px</option>
-        </select>
-        <br>
-        
-        ICON SET: <select id="settings_game" onchange="changeIconSet(this.value);">
-          <option value="N64">N64</option>
-          <option value="3DS">3DS</option>
-          <option value="USR" disabled>Custom</option>
-        </select>
-        <br>
-        
-        DUNGEON TRACKER: <select id="settings_dungeon" onchange="document.getElementById('dungeontable').className = this.value; createCookie('dungeon', this.value);">
-          <option value="side">On the Side</option>
-          <option value="below">Below</option>
-          <option value="margin">Below (centered)</option>
-          <option value="right">Float Right</option>
-          <option value="force">Bottom Right (glitchy!)</option>
-          <option value="none">Disabled</option>
-        </select>
-        <br>
-        
-        MAP TRACKER: <select id="settings_map" onchange="document.getElementById('map').className = this.value; createCookie('map', this.value);">
-          <option value="side">On the Side</option>
-          <option value="below">Below</option>
-          <option value="margin">Below (centered)</option>
-          <option value="none">Disabled</option>
-        </select>
-        
-        <div style="margin: 7px 0;">MAP SIZE: <input type="range" id="settings_mapzoom" onchange="changeZoom(this.value);" oninput="changeZoom(this.value);" min="0.1" max="2" step="0.1" value="1">&nbsp;<span id="settings_mapzoom2">100%</span></div>
-        <br>
-        
-        <input type="checkbox" id="settings_checkmark" onchange="changeCheckMark(this.checked);">&nbsp;<label for="settings_checkmark">Display checkmarks on songs, medallions and spiritual stones?</label>
-        <br>
-       
-        <button class="button" onclick='createCookie("mapzoom", 0.6); window.open("https://ranawaysuccessfully.github.io/rand-oot-item-tracker/", "", "width=660,height=720");'>Pop-out Item Tracker</button> <button class="button" onclick="resetSettings();">Reset All Settings</button> <button class="button" onclick="resetHalfSettings();">Reset Map/Items</button>
-        <br>
-        <button class="button" onclick="closeSettings()">Close Settings</button>
-       
-     </section>
-    </div>
-    
-    <div id="overlay2" class="hidden">
-      <section>
-        <h2>Import</h2>
-        <input type="checkbox" id="onlyimport"> <label for="onlyimport">Only import item/chest data</label><br>
-        <input type="file" id="importfile" accept=".json" onchange="loadJSON(event)"> <label for="importfile" class="file">Load JSON File</label><br>
-        
-        
-        <br><br><br>
-        
-        <h2><strong>Export</strong></h2>
-        <a href="javascript:;" id="exportfile">Click here to download the file</a>
-        <br>
-        <button class="button" onclick="closeOverlay2()">Cancel</button>
-      </section>
     </div>
 
   </body>
